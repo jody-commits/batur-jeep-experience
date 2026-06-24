@@ -1,0 +1,610 @@
+/* ============================================================
+   fleet.css — Batur Jeep Experience
+   Our Fleet Page — Vertical Cards, Safety Section, CTA
+   ============================================================ */
+
+/* Inherits CSS variables from style.css (--primary, --accent, etc.) */
+
+/* =============================================================
+   FLEET HERO — Overrides page-hero for jeep lineup photo
+============================================================= */
+.fleet-hero {
+    min-height: 420px;
+    align-items: flex-end;
+    padding-bottom: 0;
+}
+.fleet-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        100deg,
+        rgba(10,28,20,0.85) 0%,
+        rgba(10,28,20,0.65) 50%,
+        rgba(10,28,20,0.35) 100%
+    );
+}
+/* Keep page-hero__content but adjust layout */
+.fleet-hero .page-hero__content {
+    padding-bottom: 0;
+}
+
+/* Stats bar inside hero bottom */
+.fleet-hero__stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(10,28,20,0.72);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 2.5rem;
+    padding: 1.25rem 2rem;
+    border-radius: 16px 16px 0 0;
+    flex-wrap: wrap;
+    width: fit-content;
+    max-width: 100%;
+}
+.fleet-hero__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 2rem;
+    text-align: center;
+}
+.fleet-hero__stat strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #F4A261;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+.fleet-hero__stat span {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.fleet-hero__stat-div {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.15);
+    flex-shrink: 0;
+}
+
+
+/* =============================================================
+   FLEET FILTER BAR
+============================================================= */
+.fleet-filter-bar {
+    background: #fff;
+    border-bottom: 1px solid #F3F4F6;
+    padding: 1rem 0;
+    position: sticky;
+    top: 72px;
+    z-index: 90;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.fleet-filter-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.fleet-filter-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.fleet-filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 9999px;
+    border: 1.5px solid #E5E7EB;
+    background: #fff;
+    color: #6B7280;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+.fleet-filter-pill:hover {
+    border-color: #2D6A4F;
+    color: #2D6A4F;
+    background: rgba(45,106,79,0.04);
+}
+.fleet-filter-pill.is-active {
+    background: #2D6A4F;
+    border-color: #2D6A4F;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(45,106,79,0.25);
+}
+.fleet-pill-count {
+    background: rgba(0,0,0,0.12);
+    color: inherit;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+    line-height: 1.4;
+}
+.fleet-filter-pill.is-active .fleet-pill-count {
+    background: rgba(255,255,255,0.25);
+}
+.fleet-filter-bar__note {
+    font-size: 0.78rem;
+    color: #9CA3AF;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Poppins', sans-serif;
+}
+.fleet-filter-bar__note i { font-size: 0.7rem; }
+
+
+/* =============================================================
+   FLEET GRID
+============================================================= */
+.fleet-list-section {
+    padding: 3.5rem 0 4rem;
+    background: #F9FAFB;
+}
+.fleet-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+/* ── Jeep Card (Vertical) ─── */
+.fleet-jeep-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    border: 1px solid #F3F4F6;
+    transition: all 0.35s ease;
+    display: flex;
+    flex-direction: column;
+}
+.fleet-jeep-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+    border-color: rgba(45,106,79,0.2);
+}
+.fleet-jeep-card--rented {
+    opacity: 0.92;
+}
+.fleet-jeep-card--rented:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+}
+
+/* Image top */
+.fleet-jeep-card__img-wrap {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+.fleet-jeep-card__img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.55s ease;
+}
+.fleet-jeep-card:hover .fleet-jeep-card__img {
+    transform: scale(1.06);
+}
+.fleet-jeep-card--rented .fleet-jeep-card__img {
+    filter: grayscale(30%);
+}
+
+/* Status badge */
+.fleet-jeep-card__status {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    backdrop-filter: blur(8px);
+    z-index: 2;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.02em;
+}
+.fleet-jeep-card__status--available {
+    background: rgba(82,183,136,0.92);
+    color: #fff;
+}
+.fleet-jeep-card__status--rented {
+    background: rgba(244,162,97,0.92);
+    color: #fff;
+}
+.fleet-status-dot {
+    font-size: 0.45rem;
+    animation: statusPulse 2s ease infinite;
+}
+@keyframes statusPulse {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+}
+
+/* Featured ribbon */
+.fleet-jeep-card__featured-ribbon {
+    position: absolute;
+    top: 12px;
+    right: -22px;
+    background: #F4A261;
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 2rem 0.3rem 0.8rem;
+    transform: rotate(35deg);
+    transform-origin: left center;
+    z-index: 2;
+    text-transform: uppercase;
+}
+
+/* Rented overlay */
+.fleet-jeep-card__rented-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10,28,20,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.fleet-jeep-card__rented-overlay i {
+    font-size: 1.75rem;
+    color: #F4A261;
+}
+.fleet-jeep-card--rented:hover .fleet-jeep-card__rented-overlay {
+    opacity: 1;
+}
+
+/* Card body */
+.fleet-jeep-card__body {
+    padding: 1.25rem 1.4rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Header: name + plate */
+.fleet-jeep-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+.fleet-jeep-card__name-wrap { flex: 1; min-width: 0; }
+.fleet-jeep-card__name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.2rem;
+    line-height: 1.2;
+}
+.fleet-jeep-card__type {
+    font-size: 0.72rem;
+    color: #9CA3AF;
+    font-weight: 500;
+}
+.fleet-jeep-card__plate {
+    background: #F3F4F6;
+    color: #374151;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.3rem 0.65rem;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border: 1px solid #E5E7EB;
+}
+
+/* Meta: color + passengers */
+.fleet-jeep-card__meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+.fleet-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #6B7280;
+    font-family: 'Poppins', sans-serif;
+}
+.fleet-meta-item i { color: #2D6A4F; font-size: 0.82rem; }
+.fleet-color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1.5px solid rgba(0,0,0,0.15);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+/* Description */
+.fleet-jeep-card__desc {
+    font-size: 0.82rem;
+    color: #6B7280;
+    line-height: 1.65;
+    margin-bottom: 0.875rem;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Facilities */
+.fleet-jeep-card__facilities {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.1rem;
+}
+.fleet-facility-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.65rem;
+    background: rgba(45,106,79,0.08);
+    color: #2D6A4F;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+.fleet-facility-tag i { font-size: 0.6rem; color: #52B788; }
+
+/* CTA button area */
+.fleet-jeep-card__cta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 0.875rem;
+    border-top: 1px solid #F3F4F6;
+}
+.fleet-book-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.25rem;
+    background: #2D6A4F;
+    color: #fff;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(45,106,79,0.25);
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+}
+.fleet-book-btn i { font-size: 0.72rem; }
+.fleet-book-btn:hover {
+    background: #1e4d38;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(45,106,79,0.35);
+    color: #fff;
+}
+.fleet-unavail-msg {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #F4A261;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+.fleet-alt-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #2D6A4F;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.25s ease;
+    font-family: 'Poppins', sans-serif;
+}
+.fleet-alt-btn:hover { color: #1e4d38; }
+
+
+/* =============================================================
+   SAFETY STANDARDS SECTION — dark green background
+============================================================= */
+.fleet-safety {
+    position: relative;
+    padding: 5.5rem 0;
+    overflow: hidden;
+}
+.fleet-safety__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1e4d38 0%, #2D6A4F 55%, #3a7d5e 100%);
+}
+.fleet-safety .container { position: relative; z-index: 2; }
+
+.fleet-safety__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+.fleet-safety__card {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.fleet-safety__card:hover {
+    background: rgba(255,255,255,0.13);
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.22);
+}
+.fleet-safety__icon-wrap {
+    width: 58px;
+    height: 58px;
+    background: rgba(244,162,97,0.15);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.1rem;
+    font-size: 1.5rem;
+    color: #F4A261;
+    transition: all 0.3s ease;
+}
+.fleet-safety__card:hover .fleet-safety__icon-wrap {
+    background: #F4A261;
+    color: #fff;
+    transform: rotate(8deg) scale(1.1);
+}
+.fleet-safety__card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.6rem;
+}
+.fleet-safety__card-desc {
+    font-size: 0.83rem;
+    color: rgba(255,255,255,0.68);
+    line-height: 1.65;
+}
+
+
+/* =============================================================
+   FLEET READY CTA
+============================================================= */
+.fleet-ready-section {
+    padding: 6rem 0;
+    background: #F3F4F6;
+}
+.fleet-ready__inner {
+    text-align: center;
+    max-width: 580px;
+    margin: 0 auto;
+    position: relative;
+}
+.fleet-ready__decoration {
+    font-size: 3.5rem;
+    color: rgba(45,106,79,0.12);
+    margin-bottom: 1rem;
+    line-height: 1;
+}
+.fleet-ready__title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 1rem;
+    line-height: 1.15;
+}
+.fleet-ready__desc {
+    font-size: 1rem;
+    color: #6B7280;
+    line-height: 1.75;
+    margin-bottom: 2.25rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.fleet-ready__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.btn-fleet-book {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2.25rem;
+    background: #2D6A4F;
+    color: #fff;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(45,106,79,0.3);
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+.btn-fleet-book:hover {
+    background: #1e4d38;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(45,106,79,0.4);
+    color: #fff;
+}
+.btn-fleet-packages {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 2rem;
+    border-radius: 9999px;
+    border: 1.5px solid #D1D5DB;
+    color: #374151;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    background: #fff;
+}
+.btn-fleet-packages:hover {
+    border-color: #2D6A4F;
+    color: #2D6A4F;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+
+/* =============================================================
+   RESPONSIVE
+============================================================= */
+@media (max-width: 1024px) {
+    .fleet-card-grid { grid-template-columns: repeat(2, 1fr); }
+    .fleet-safety__grid { grid-template-columns: repeat(2, 1fr); }
+    .fleet-hero__stats { width: 100%; justify-content: center; }
+}
+@media (max-width: 768px) {
+    .fleet-card-grid { grid-template-columns: 1fr; }
+    .fleet-safety__grid { grid-template-columns: 1fr; }
+    .fleet-hero__stats { flex-wrap: wrap; }
+    .fleet-hero__stat-div { display: none; }
+    .fleet-hero__stat { padding: 0.75rem 1.5rem; }
+    .fleet-filter-bar__inner { flex-direction: column; align-items: flex-start; }
+    .fleet-ready__actions { flex-direction: column; align-items: center; }
+}
