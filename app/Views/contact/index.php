@@ -80,7 +80,7 @@
                     <div class="contact-form-group">
                         <label for="whatsapp" class="contact-form-label">WhatsApp Number</label>
                         <div class="contact-wa-wrap">
-                            <span class="contact-wa-prefix">+62 812...</span>
+                            <span class="contact-wa-prefix">+62 821...</span>
                             <input
                                 type="tel"
                                 name="whatsapp"
@@ -143,8 +143,8 @@
                     <div class="contact-info-content">
                         <h3 class="contact-info-title">Our Basecamp</h3>
                         <p class="contact-info-value">
-                            Penelokan Main Rd, Kintamani,<br>
-                            Bali 80652, Indonesia
+                            Jl. Bukit Selat, Songan A, Kec. Kintamani,<br>
+                            Kabupaten Bangli, Bali 80652
                         </p>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                     <div class="contact-info-content">
                         <div class="contact-info-header-row">
                             <h3 class="contact-info-title" style="margin-bottom:0;">Phone &amp; WhatsApp</h3>
-                            <a href="https://wa.me/6281234567890?text=Hi%2C%20I%27m%20interested%20in%20a%20Batur%20Jeep%20Experience%20tour!"
+                            <a href="https://wa.me/6282147051381?text=Hi%2C%20I%27m%20interested%20in%20a%20Batur%20Jeep%20Experience%20tour!"
                                target="_blank"
                                rel="noopener noreferrer"
                                class="contact-chat-badge"
@@ -170,7 +170,7 @@
                             </a>
                         </div>
                         <p class="contact-info-value">
-                            <a href="tel:+6281234567890">+62 812-3456-7890</a>
+                            <a href="tel:+6282147051381">0821-4705-1381</a>
                         </p>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
     <!-- Google Maps Embed (area Kintamani/Batur) -->
     <div class="contact-map" id="contact-map" data-aos="fade-up">
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15793.42!2d115.3780!3d-8.2420!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd1fb7f7a9f6b1b%3A0x1234567890abcdef!2sKintamani%2C%20Bangli%20Regency%2C%20Bali%2C%20Indonesia!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+            src="https://maps.google.com/maps?q=Jl.%20Bukit%20Selat,%20Songan%20A,%20Kec.%20Kintamani,%20Kabupaten%20Bangli,%20Bali%2080652&t=&z=13&ie=UTF8&iwloc=&output=embed"
             width="100%"
             height="400"
             style="border:0;"
@@ -224,7 +224,7 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     text += msg + "\n\n";
     text += "Contact Info:\n- WA: " + wa + "\n- Email: " + email;
     
-    var waUrl = "https://wa.me/6281234567890?text=" + encodeURIComponent(text);
+    var waUrl = "https://wa.me/6282147051381?text=" + encodeURIComponent(text);
     window.open(waUrl, '_blank');
 });
 </script>

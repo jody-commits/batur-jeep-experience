@@ -14,7 +14,7 @@
 <section class="hero" id="hero-section">
 
     <!-- Background Image -->
-    <div class="hero__bg" style="background-image: url('<?= base_url('assets/images/batur-hero.jpg') ?>');"></div>
+    <div class="hero__bg" style="background-image: url('<?= base_url('assets/images/home-pagee.jpg') ?>');"></div>
 
     <!-- Dark Gradient Overlay -->
     <div class="hero__overlay"></div>
@@ -132,7 +132,7 @@
             <!-- Package 1: Sunrise Batur -->
             <article class="package-card" data-aos="fade-up" data-delay="0">
                 <div class="package-card__img-wrap">
-                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/batur-sunrise-hero.png') ?>');"></div>
+                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/sunrise.jpg') ?>');"></div>
                     <div class="package-card__badge package-card__badge--sunrise">🌅 Sunrise Guaranteed</div>
                     <div class="package-card__overlay"></div>
                 </div>
@@ -162,7 +162,7 @@
             <!-- Package 2: Offroad Adventure -->
             <article class="package-card" data-aos="fade-up" data-delay="100">
                 <div class="package-card__img-wrap">
-                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/jeep-hero.jpg') ?>');"></div>
+                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/offroad.jpg') ?>');"></div>
                     <div class="package-card__badge package-card__badge--bestseller">🔥 Best Seller</div>
                     <div class="package-card__overlay"></div>
                 </div>
@@ -192,7 +192,7 @@
             <!-- Package 3: Private Trip -->
             <article class="package-card" data-aos="fade-up" data-delay="200">
                 <div class="package-card__img-wrap">
-                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/kintamani-green-hero.png') ?>');"></div>
+                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/jeep-kuning.jpg') ?>');"></div>
                     <div class="package-card__badge package-card__badge--private">✨ Private</div>
                     <div class="package-card__overlay"></div>
                 </div>
@@ -296,7 +296,7 @@
                 </div>
                 <h3 class="feature-card__title">Hotel Pickup</h3>
                 <p class="feature-card__desc">
-                    Free hotel pickup service from Kuta, Seminyak, Ubud, Sanur, Nusa Dua. We come to you.
+                    With the hotel pickup service from Kuta, Seminyak, Ubud, Sanur, Nusa Dua. We come to you.
                 </p>
             </div>
 
@@ -522,35 +522,31 @@
             <div class="location-content" data-aos="fade-right">
                 <span class="section-header__eyebrow">Find Us</span>
                 <h2 class="location-content__title" id="location-heading">
-                    Our Basecamp at<br>Penelokan, Kintamani
+                    Our Basecamp at<br>Songan, Kintamani
                 </h2>
                 <p class="location-content__desc">
-                    Located at the iconic Penelokan viewpoint overlooking Mount Batur and Batur Lake.
+                    Located at songan viewpoint overlooking Mount Batur and Batur Lake.
                     The most strategic starting point for your volcanic expedition.
                 </p>
 
                 <ul class="location-info">
                     <li>
                         <i class="fa-solid fa-location-dot"></i>
-                        <span>Jalan Raya Penelokan, Kintamani, Bangli, Bali 80652</span>
-                    </li>
-                    <li>
-                        <i class="fa-regular fa-clock"></i>
-                        <span>Open Daily: 03.30 – 18.00 WITA</span>
+                        <span>Jl. Bukit Selat, Songan A, Kec. Kintamani, Kabupaten Bangli, Bali 80652</span>
                     </li>
                     <li>
                         <i class="fa-brands fa-whatsapp"></i>
-                        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener">+62 812-3456-7890</a>
+                        <a href="https://wa.me/6282147051381" target="_blank" rel="noopener">0821-4705-1381</a>
                     </li>
                 </ul>
 
                 <div class="location-actions">
-                    <a href="https://maps.google.com/?q=Penelokan+Kintamani+Bali" target="_blank" rel="noopener"
+                    <a href="https://maps.app.goo.gl/NJ8bdh6RXh7TfvJr5" target="_blank" rel="noopener"
                        class="btn btn--primary" id="location-btn-maps">
                         <i class="fa-solid fa-map-location-dot"></i>
                         Open in Google Maps
                     </a>
-                    <a href="https://wa.me/6281234567890" target="_blank" rel="noopener"
+                    <a href="https://wa.me/6282147051381" target="_blank" rel="noopener"
                        class="btn btn--whatsapp" id="location-btn-wa">
                         <i class="fa-brands fa-whatsapp"></i>
                         Chat on WhatsApp
@@ -563,7 +559,7 @@
                 <div class="location-map__wrap">
                     <iframe
                         title="Lokasi Batur Jeep Experience di Google Maps"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.0497327394413!2d115.39!3d-8.24!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOMKwMTQnMjQuMCJTIDExNcKwMjMnMjQuMCJF!5e0!3m2!1sen!2sid!4v1620000000000!5m2!1sen!2sid"
+                        src="https://maps.google.com/maps?q=Jl.%20Bukit%20Selat,%20Songan%20A,%20Kec.%20Kintamani,%20Kabupaten%20Bangli,%20Bali%2080652&t=&z=13&ie=UTF8&iwloc=&output=embed"
                         width="100%"
                         height="100%"
                         style="border:0; border-radius: 16px;"
@@ -583,7 +579,7 @@
      SECTION 9: FINAL CTA BANNER
 ════════════════════════════════════════════════════════ -->
 <section class="cta-banner" id="cta-banner" aria-labelledby="cta-banner-heading">
-    <div class="cta-banner__bg" style="background-image: url('<?= base_url('assets/images/batur-hero.jpg') ?>');"></div>
+    <div class="cta-banner__bg" style="background-image: url('<?= base_url('assets/images/home-pagee.jpg') ?>');"></div>
     <div class="cta-banner__overlay"></div>
     <div class="container">
         <div class="cta-banner__content" data-aos="fade-up">

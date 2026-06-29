@@ -111,6 +111,11 @@
     font-size: 0.85rem;
     color: rgba(255,255,255,0.7);
 }
+.booking-pkg-price-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
 .booking-pkg-price-wrap {
     text-align: right;
     flex-shrink: 0;
@@ -254,6 +259,9 @@
     transition: all 0.25s ease;
     font-family: 'Poppins', sans-serif;
     outline: none;
+    box-sizing: border-box;
+    max-width: 100%;
+    -webkit-appearance: none;
 }
 .form-input::placeholder { color: #D1D5DB; }
 .form-input:focus,
@@ -266,6 +274,8 @@
 }
 .form-input-icon-wrap {
     position: relative;
+    width: 100%;
+    display: block;
 }
 .form-input-icon {
     position: absolute;
@@ -834,4 +844,23 @@
     .confirm-details-grid { grid-template-columns: 1fr; }
     .confirm-actions { flex-direction: column; align-items: center; }
     .booking-page { padding-top: calc(var(--navbar-h, 72px) + 1.5rem); }
+    
+    .booking-pkg-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .booking-pkg-price-container {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .booking-pkg-price-wrap {
+        text-align: left;
+    }
+    .booking-pkg-name {
+        font-size: 1.35rem;
+    }
+    .booking-pkg-price {
+        font-size: 1.35rem;
+    }
 }

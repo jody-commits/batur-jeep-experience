@@ -54,20 +54,13 @@
                     <ul class="footer__contact">
                         <li>
                             <i class="fa-solid fa-location-dot"></i>
-                            <span>Penelokan Main Rd, Kintamani,<br>Bangli, Bali 80652</span>
+                            <span>Jl. Bukit Selat, Songan A, Kec. Kintamani,<br>Kabupaten Bangli, Bali 80652</span>
                         </li>
                         <li>
                             <i class="fa-brands fa-whatsapp"></i>
-                            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener">+62 812-3456-7890</a>
+                            <a href="https://wa.me/6282147051381" target="_blank" rel="noopener">0821-4705-1381</a>
                         </li>
-                        <li>
-                            <i class="fa-solid fa-envelope"></i>
-                            <a href="mailto:explore@baturjeep.com">explore@baturjeep.com</a>
-                        </li>
-                        <li>
-                            <i class="fa-regular fa-clock"></i>
-                            <span>03.30 – 18.00 WITA<br><small>(Every Day)</small></span>
-                        </li>
+
                     </ul>
                 </div>
 

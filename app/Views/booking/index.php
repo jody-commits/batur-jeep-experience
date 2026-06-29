@@ -50,7 +50,7 @@
                         <h2 class="booking-pkg-name" id="pkg-display-name"><?= esc($selected['name']) ?></h2>
                         <p class="booking-pkg-desc" id="pkg-display-desc"><?= esc($selected['subtitle']) ?></p>
                     </div>
-                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <div class="booking-pkg-price-container">
                         <div class="booking-pkg-price-wrap">
                             <div class="booking-pkg-price-label">Starting From</div>
                             <div class="booking-pkg-price" id="pkg-display-price">Rp <?= number_format($selected['price'], 0, ',', '.') ?></div>

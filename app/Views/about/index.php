@@ -17,7 +17,7 @@
      ABOUT HERO
 ════════════════════════════════════════════════════════ -->
 <section class="about-hero page-hero" aria-labelledby="about-page-title">
-    <div class="about-hero__bg" style="background-image: url('<?= base_url('assets/images/about-hero.jpg') ?>');"></div>
+    <div class="about-hero__bg" style="background-image: url('<?= base_url('assets/images/mountbatur.jpg') ?>');"></div>
     <div class="about-hero__overlay"></div>
 
     <div class="about-hero__content" data-aos="fade-up">
@@ -36,8 +36,8 @@
         <div class="about-story__inner">
             
             <div class="about-story__images" data-aos="fade-right">
-                <img src="<?= base_url('assets/images/story-driver.jpg') ?>" alt="Our Driver" class="about-story__img-main">
-                <img src="<?= base_url('assets/images/fleet-scout.jpg') ?>" alt="Jeep in caldera" class="about-story__img-sub">
+                <img src="<?= base_url('assets/images/mountbatur.jpg') ?>" alt="Our Driver" class="about-story__img-main">
+                <img src="<?= base_url('assets/images/mountbatur.jpg') ?>" alt="Jeep in caldera" class="about-story__img-sub">
             </div>
 
             <div class="about-story__content" data-aos="fade-left">
