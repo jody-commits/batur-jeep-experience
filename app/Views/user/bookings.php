@@ -104,7 +104,7 @@
                     <?= strtoupper(esc($booking['status'])) ?>
                 </span>
                 <p class="booking-item__booked-on" style="margin-top:0.3rem;">
-                    Booked on <?= esc($booking['booked_on']) ?>
+                    Booked on <?= date('M d, Y', strtotime($booking['created_at'])) ?>
                 </p>
             </div>
         </div>
@@ -123,7 +123,7 @@
                 <p class="booking-detail-col__label">
                     <i class="fa-regular fa-calendar"></i> DATE
                 </p>
-                <p class="booking-detail-col__value"><?= esc($booking['tour_date']) ?></p>
+                <p class="booking-detail-col__value"><?= date('M d, Y', strtotime($booking['tour_date'])) ?></p>
             </div>
             <!-- Guests -->
             <div class="booking-detail-col">
@@ -149,7 +149,7 @@
             <?php if ($booking['status'] === 'confirmed' && !empty($booking['hotel_name'])): ?>
                 <span class="booking-item__note booking-item__note--success">
                     <i class="fa-regular fa-clock"></i>
-                    Pickup at <?= esc($booking['pickup_time']) ?> (<?= esc($booking['hotel_name']) ?>)
+                    Pickup at <?= esc($booking['hotel_name']) ?>
                 </span>
             <?php elseif ($booking['status'] === 'completed'): ?>
                 <span class="booking-item__note booking-item__note--success">

@@ -61,18 +61,7 @@
                             autocomplete="name"
                             required>
                     </div>
-                    <div class="contact-form-group">
-                        <label for="email" class="contact-form-label">Email Address</label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            class="contact-form-input"
-                            placeholder="email@example.com"
-                            value="<?= old('email') ?>"
-                            autocomplete="email"
-                            required>
-                    </div>
+
                 </div>
 
                 <!-- Row 2: WhatsApp + Subject -->
@@ -208,7 +197,7 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
     var name = document.getElementById('full_name').value || '';
-    var email = document.getElementById('email').value || '';
+
     var wa = document.getElementById('whatsapp').value || '';
     var subject = document.getElementById('subject').value || '';
     var msg = document.getElementById('message').value || '';
@@ -222,7 +211,7 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     text += "My name is " + name + ".\n";
     text += "Subject: " + subject + "\n\n";
     text += msg + "\n\n";
-    text += "Contact Info:\n- WA: " + wa + "\n- Email: " + email;
+    text += "Contact Info:\n- WA: " + wa;
     
     var waUrl = "https://wa.me/6282147051381?text=" + encodeURIComponent(text);
     window.open(waUrl, '_blank');

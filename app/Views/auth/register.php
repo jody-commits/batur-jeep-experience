@@ -365,7 +365,7 @@
         registerForm.addEventListener('submit', function (e) {
             if (!registerForm.checkValidity()) return;
             registerBtn.classList.add('is-loading');
-            registerBtn.disabled = true;
+            setTimeout(function() { registerBtn.disabled = true; }, 10);
         });
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\UserModel;
 
 /**
  * Controller: Admin\Users
@@ -16,37 +17,33 @@ class Users extends BaseController
     {
         $adminName = session()->get('user_name') ?? 'Administrator';
 
-        $stats = [
-            'total' => '1,284',
-            'active' => 342,
-            'admins' => 12,
-        ];
+        $userModel = new UserModel();
+        $dbUsers = $userModel->withDeleted()->findAll();
 
-        $users = [
-            [
-                'name' => 'Budi Santoso',
-                'email' => 'budi.s@example.com',
-                'role' => 'ADMIN',
-                'status' => 'Active',
-                'join_date' => '12 Jan 2024',
-                'avatar' => 'user-avatar.png',
-            ],
-            [
-                'name' => 'Sarah Lee',
-                'email' => 'sarah.lee@web.com',
-                'role' => 'USER',
-                'status' => 'Active',
-                'join_date' => '05 Feb 2024',
-                'avatar' => 'default-avatar-f.png',
-            ],
-            [
-                'name' => 'Made Ari',
-                'email' => 'ari.made@bali.id',
-                'role' => 'GUIDE',
-                'status' => 'Inactive',
-                'join_date' => '15 Dec 2023',
-                'avatar' => 'default-avatar-m.png',
-            ],
+        $total = 0;
+        $active = 0;
+        $admins = 0;
+        $users = [];
+
+        foreach ($dbUsers as $u) {
+            $total++;
+            if ($u['is_active'] == 1 && empty($u['deleted_at'])) $active++;
+            if ($u['role'] === 'admin') $admins++;
+
+            $users[] = [
+                'name' => $u['name'],
+                'email' => $u['email'],
+                'role' => strtoupper($u['role']),
+                'status' => (!empty($u['deleted_at'])) ? 'Deleted' : ($u['is_active'] == 1 ? 'Active' : 'Inactive'),
+                'join_date' => date('d M Y', strtotime($u['created_at'])),
+                'avatar' => 'default-avatar.png', // Will use UI-avatars fallback
+            ];
+        }
+
+        $stats = [
+            'total' => number_format($total),
+            'active' => number_format($active),
+            'admins' => number_format($admins),
         ];
 
         return view('admin/users', [

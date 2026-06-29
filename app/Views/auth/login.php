@@ -247,7 +247,7 @@
 
             // Add loading class
             loginBtn.classList.add('is-loading');
-            loginBtn.disabled = true;
+            setTimeout(function() { loginBtn.disabled = true; }, 10);
         });
     }
 

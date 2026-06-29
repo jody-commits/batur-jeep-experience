@@ -128,97 +128,43 @@
 
         <!-- Package Cards -->
         <div class="packages-grid">
-
-            <!-- Package 1: Sunrise Batur -->
-            <article class="package-card" data-aos="fade-up" data-delay="0">
+            <?php foreach ($packages as $pkg): ?>
+            <article class="package-card" data-aos="fade-up">
                 <div class="package-card__img-wrap">
-                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/sunrise.jpg') ?>');"></div>
-                    <div class="package-card__badge package-card__badge--sunrise">🌅 Sunrise Guaranteed</div>
+                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/' . $pkg['image']) ?>');"></div>
+                    <?php if ($pkg['is_pickup'] == 1): ?>
+                        <div class="package-card__badge package-card__badge--bestseller">🔥 Best Seller</div>
+                    <?php else: ?>
+                        <div class="package-card__badge package-card__badge--private">✨ Private</div>
+                    <?php endif; ?>
                     <div class="package-card__overlay"></div>
                 </div>
                 <div class="package-card__body">
                     <div class="package-card__tags">
-                        <span class="tag tag--pickup"><i class="fa-solid fa-van-shuttle"></i> Pickup</span>
-                        <span class="tag tag--duration"><i class="fa-regular fa-clock"></i> 4 Hours</span>
+                        <?php if ($pkg['is_pickup'] == 1): ?>
+                            <span class="tag tag--pickup"><i class="fa-solid fa-van-shuttle"></i> Pickup</span>
+                        <?php else: ?>
+                            <span class="tag tag--meeting"><i class="fa-solid fa-location-dot"></i> Meeting Point</span>
+                        <?php endif; ?>
+                        <span class="tag tag--duration"><i class="fa-regular fa-clock"></i> <?= esc($pkg['duration']) ?></span>
                     </div>
-                    <h3 class="package-card__title">Classic Sunrise<br>Batur</h3>
+                    <h3 class="package-card__title"><?= esc($pkg['name']) ?></h3>
                     <p class="package-card__desc">
-                        Witness the majestic sunrise from the volcanic rim, overlooking the
-                        shimmering Batur Lake.
+                        <?= esc(substr($pkg['description'], 0, 100)) ?>...
                     </p>
                     <div class="package-card__footer">
                         <div class="package-card__price">
                             <span class="package-card__price-from">Starting From</span>
-                            <strong class="package-card__price-num">Rp&nbsp;1,500,000</strong>
+                            <strong class="package-card__price-num">Rp&nbsp;<?= number_format($pkg['price'], 0, ',', '.') ?></strong>
                             <span class="package-card__price-unit">/ Jeep</span>
                         </div>
-                        <a href="<?= base_url('booking?package_id=1') ?>" class="btn btn--primary btn--sm" id="pkg-1-book">
+                        <a href="<?= base_url('booking?package=' . $pkg['id']) ?>" class="btn btn--primary btn--sm">
                             Book This Package
                         </a>
                     </div>
                 </div>
             </article>
-
-            <!-- Package 2: Offroad Adventure -->
-            <article class="package-card" data-aos="fade-up" data-delay="100">
-                <div class="package-card__img-wrap">
-                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/offroad.jpg') ?>');"></div>
-                    <div class="package-card__badge package-card__badge--bestseller">🔥 Best Seller</div>
-                    <div class="package-card__overlay"></div>
-                </div>
-                <div class="package-card__body">
-                    <div class="package-card__tags">
-                        <span class="tag tag--pickup"><i class="fa-solid fa-van-shuttle"></i> Pickup</span>
-                        <span class="tag tag--duration"><i class="fa-regular fa-clock"></i> 8 Hours</span>
-                    </div>
-                    <h3 class="package-card__title">Offroad Adventure<br>Full Day</h3>
-                    <p class="package-card__desc">
-                        A full-day thrilling ride through volcanic lava fields, jungle trails,
-                        and Batur's iconic black sand.
-                    </p>
-                    <div class="package-card__footer">
-                        <div class="package-card__price">
-                            <span class="package-card__price-from">Starting From</span>
-                            <strong class="package-card__price-num">Rp&nbsp;2,500,000</strong>
-                            <span class="package-card__price-unit">/ Jeep</span>
-                        </div>
-                        <a href="<?= base_url('booking?package_id=2') ?>" class="btn btn--primary btn--sm" id="pkg-2-book">
-                            Book This Package
-                        </a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Package 3: Private Trip -->
-            <article class="package-card" data-aos="fade-up" data-delay="200">
-                <div class="package-card__img-wrap">
-                    <div class="package-card__img" style="background-image: url('<?= base_url('assets/images/jeep-kuning.jpg') ?>');"></div>
-                    <div class="package-card__badge package-card__badge--private">✨ Private</div>
-                    <div class="package-card__overlay"></div>
-                </div>
-                <div class="package-card__body">
-                    <div class="package-card__tags">
-                        <span class="tag tag--meeting"><i class="fa-solid fa-location-dot"></i> Meeting Point</span>
-                        <span class="tag tag--duration"><i class="fa-regular fa-clock"></i> 6 Hours</span>
-                    </div>
-                    <h3 class="package-card__title">Private Trip<br>Kintamani</h3>
-                    <p class="package-card__desc">
-                        Exclusive private tour for families and couples. Choose your route,
-                        set your schedule, ultimate flexibility.
-                    </p>
-                    <div class="package-card__footer">
-                        <div class="package-card__price">
-                            <span class="package-card__price-from">Starting From</span>
-                            <strong class="package-card__price-num">Rp&nbsp;3,500,000</strong>
-                            <span class="package-card__price-unit">/ Jeep</span>
-                        </div>
-                        <a href="<?= base_url('booking?package_id=3') ?>" class="btn btn--primary btn--sm" id="pkg-3-book">
-                            Book This Package
-                        </a>
-                    </div>
-                </div>
-            </article>
-
+            <?php endforeach; ?>
         </div><!-- /.packages-grid -->
 
         <!-- View All CTA -->

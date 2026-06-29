@@ -14,7 +14,7 @@ $routes->post("contact", "Contact::send");
 // ── Booking ─────────────────────────────────────────────────
 $routes->get("booking",         "Booking::index");
 $routes->post("booking",        "Booking::store");
-$routes->get("booking/confirm", "Booking::confirm");
+$routes->get("booking/confirm/(:segment)", "Booking::confirm/$1");
 
 // ── Authentication ──────────────────────────────────────────
 $routes->get("auth/login",    "Auth::login");
@@ -58,5 +58,14 @@ $routes->get("dev/login-as-admin", static function () {
 // ── Admin Area ──────────────────────────────────────────────
 $routes->get("admin/dashboard", "Admin\Dashboard::index");
 $routes->get("admin/bookings", "Admin\Bookings::index");
+$routes->post("admin/bookings/update-status/(:num)", "Admin\Bookings::updateStatus/$1");
+
+// Packages CRUD
 $routes->get("admin/packages", "Admin\Packages::index");
+$routes->get("admin/packages/create", "Admin\Packages::create");
+$routes->post("admin/packages/store", "Admin\Packages::store");
+$routes->get("admin/packages/edit/(:num)", "Admin\Packages::edit/$1");
+$routes->post("admin/packages/update/(:num)", "Admin\Packages::update/$1");
+$routes->post("admin/packages/delete/(:num)", "Admin\Packages::delete/$1");
+
 $routes->get("admin/users", "Admin\Users::index");

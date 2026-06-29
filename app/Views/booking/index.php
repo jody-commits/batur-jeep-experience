@@ -73,6 +73,7 @@
                              data-pkg-price="<?= $pkg['price'] ?>"
                              data-pkg-price-fmt="Rp <?= number_format($pkg['price'], 0, ',', '.') ?>"
                              data-pkg-image="<?= base_url('assets/images/' . $pkg['image']) ?>"
+                             data-pkg-pickup="<?= esc($pkg['pickup_time'] ?? '') ?>"
                              data-pkg-included="<?= esc(implode('||', $pkg['included'])) ?>">
                             <span class="pkg-select-item-name"><?= esc($pkg['name']) ?></span>
                             <span class="pkg-select-item-price">Rp <?= number_format($pkg['price'], 0, ',', '.') ?></span>
@@ -160,6 +161,19 @@
                         <span class="toggle-label">I need hotel pick-up (Kuta, Seminyak, Ubud area)</span>
                     </label>
 
+                    <!-- Hotel Name / Location (Hidden by default) -->
+                    <div class="form-group" id="hotel-input-group" style="display: <?= old('need_pickup') ? 'block' : 'none' ?>; margin-top: 1rem;">
+                        <label for="hotel_name" class="form-label">Hotel Name / Pickup Location</label>
+                        <input
+                            type="text"
+                            name="hotel_name"
+                            id="hotel_name"
+                            class="form-input"
+                            placeholder="e.g. Padma Resort Ubud"
+                            value="<?= old('hotel_name') ?>"
+                            <?= old('need_pickup') ? 'required' : '' ?>>
+                    </div>
+
                     <!-- Number of Guests -->
                     <div class="guest-counter-wrap">
                         <span class="guest-counter-label">Number of Guests</span>
@@ -246,6 +260,13 @@
 
                     <!-- Included items -->
                     <ul class="booking-included-list" id="summary-included">
+                        <?php if (!empty($selected['pickup_time'])): ?>
+                        <li>
+                            <i class="fa-regular fa-clock"></i>
+                            Pickup Time: <strong><?= esc($selected['pickup_time']) ?></strong>
+                        </li>
+                        <?php endif; ?>
+                        
                         <?php foreach ($selected['included'] as $item): ?>
                         <li>
                             <i class="fa-regular fa-circle-check"></i>
@@ -304,6 +325,7 @@
             var price   = parseInt(item.getAttribute('data-pkg-price'), 10);
             var priceFmt= item.getAttribute('data-pkg-price-fmt');
             var imgSrc  = item.getAttribute('data-pkg-image');
+            var pickupT = item.getAttribute('data-pkg-pickup');
             var included= item.getAttribute('data-pkg-included').split('||');
 
             // Update card header
@@ -319,6 +341,13 @@
             // Update included list
             var incList = document.getElementById('summary-included');
             incList.innerHTML = '';
+            
+            if (pickupT && pickupT.trim() !== '') {
+                var pickupLi = document.createElement('li');
+                pickupLi.innerHTML = '<i class="fa-regular fa-clock"></i> Pickup Time: <strong>' + pickupT + '</strong>';
+                incList.appendChild(pickupLi);
+            }
+            
             included.forEach(function (inc) {
                 var li = document.createElement('li');
                 li.innerHTML = '<i class="fa-regular fa-circle-check"></i> ' + inc;
@@ -391,9 +420,13 @@
     /* ── Hotel Pickup Toggle ── */
     var pickupToggle = document.getElementById('need_pickup');
     var pickupRow    = document.getElementById('pickup-row');
+    var hotelInputGrp= document.getElementById('hotel-input-group');
+    var hotelInput   = document.getElementById('hotel_name');
     if (pickupToggle) {
         pickupToggle.addEventListener('change', function () {
             if (pickupRow) pickupRow.style.display = this.checked ? '' : 'none';
+            if (hotelInputGrp) hotelInputGrp.style.display = this.checked ? 'block' : 'none';
+            if (hotelInput) hotelInput.required = this.checked;
         });
     }
 

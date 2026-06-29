@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <!-- ── STAT CARDS ────────────────────────────────────────────── -->
-<div class="admin-stats-grid">
+<div class="admin-stats-grid" style="grid-template-columns: repeat(3, 1fr);">
     <!-- Revenue -->
     <div class="admin-stat-card">
         <div class="admin-stat__header">
@@ -46,19 +46,6 @@
         <div class="admin-stat__value"><?= esc($stats['users']) ?></div>
     </div>
 
-    <!-- Fleet Availability -->
-    <div class="admin-stat-card">
-        <div class="admin-stat__header">
-            <div class="admin-stat__icon admin-stat__icon--gray">
-                <i class="fa-solid fa-car"></i>
-            </div>
-            <div class="admin-stat__trend admin-stat__trend--neutral">
-                <?= esc($stats['fleet_trend']) ?>
-            </div>
-        </div>
-        <div class="admin-stat__label">FLEET AVAILABILITY</div>
-        <div class="admin-stat__value"><?= esc($stats['fleet']) ?></div>
-    </div>
 </div>
 
 <!-- ── MAIN CONTENT GRID ─────────────────────────────────────── -->
@@ -84,51 +71,69 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($pending_confirmations as $row): ?>
+                    <?php if (empty($pending_confirmations)): ?>
                     <tr>
-                        <!-- Client -->
-                        <td>
-                            <div class="admin-client">
-                                <div class="admin-client__initials" style="background-color: <?= esc($row['client_bg']) ?>;">
-                                    <?= esc($row['client_initials']) ?>
-                                </div>
-                                <div class="admin-client__info">
-                                    <span class="admin-client__name"><?= esc($row['client_name']) ?></span>
-                                    <span class="admin-client__type"><?= esc($row['client_type']) ?></span>
-                                </div>
-                            </div>
-                        </td>
-                        <!-- Package -->
-                        <td>
-                            <span class="admin-cell-package <?= str_contains($row['package'], 'Sunset') ? 'admin-cell-package--orange' : '' ?>">
-                                <?= esc($row['package']) ?>
-                            </span>
-                        </td>
-                        <!-- Date -->
-                        <td>
-                            <span class="admin-cell-text"><?= esc($row['date']) ?></span>
-                        </td>
-                        <!-- Status -->
-                        <td>
-                            <?php if ($row['status'] === 'Pending'): ?>
-                                <span class="admin-badge admin-badge--warning">Pending</span>
-                            <?php else: ?>
-                                <span class="admin-badge admin-badge--success">Confirmed</span>
-                            <?php endif; ?>
-                        </td>
-                        <!-- Actions -->
-                        <td>
-                            <div class="admin-actions">
-                                <button class="admin-btn-icon admin-btn-icon--approve" title="Approve">
-                                    <i class="fa-solid fa-check"></i>
-                                </button>
-                                <button class="admin-btn-icon admin-btn-icon--reject" title="Reject">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-                            </div>
+                        <td colspan="5" style="text-align:center; padding:2rem; color:var(--admin-text-mut);">
+                            <i class="fa-solid fa-check-circle" style="font-size:2rem; margin-bottom:0.5rem;"></i>
+                            <div>All caught up! No pending bookings.</div>
                         </td>
                     </tr>
-                    <?php endforeach; ?>
+                    <?php else: ?>
+                        <?php foreach ($pending_confirmations as $row): ?>
+                        <tr>
+                            <!-- Client -->
+                            <td>
+                                <div class="admin-client">
+                                    <div class="admin-client__initials" style="background-color: <?= esc($row['client_bg']) ?>;">
+                                        <?= esc($row['client_initials']) ?>
+                                    </div>
+                                    <div class="admin-client__info">
+                                        <span class="admin-client__name"><?= esc($row['client_name']) ?></span>
+                                        <span class="admin-client__type"><?= esc($row['client_type']) ?></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- Package -->
+                            <td>
+                                <span class="admin-cell-package <?= str_contains(strtolower($row['package']), 'sunset') ? 'admin-cell-package--orange' : '' ?>">
+                                    <?= esc($row['package']) ?>
+                                </span>
+                            </td>
+                            <!-- Date -->
+                            <td>
+                                <span class="admin-cell-text"><?= esc($row['date']) ?></span>
+                            </td>
+                            <!-- Status -->
+                            <td>
+                                <?php if ($row['status'] === 'Pending'): ?>
+                                    <span class="admin-badge admin-badge--warning">Pending</span>
+                                <?php else: ?>
+                                    <span class="admin-badge admin-badge--success">Confirmed</span>
+                                <?php endif; ?>
+                            </td>
+                            <!-- Actions -->
+                            <td>
+                                <div class="admin-actions">
+                                    <form action="<?= base_url('admin/bookings/update-status/' . $row['id']) ?>" method="post" style="display:inline;">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="status" value="confirmed">
+                                        <button type="submit" class="admin-btn-icon admin-btn-icon--approve" title="Approve" onclick="return confirm('Apakah Anda yakin ingin mengonfirmasi pesanan ini?');">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                    </form>
+                                    
+                                    <form action="<?= base_url('admin/bookings/update-status/' . $row['id']) ?>" method="post" style="display:inline;">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="status" value="rejected">
+                                        <button type="submit" class="admin-btn-icon admin-btn-icon--reject" title="Reject" onclick="return confirm('Apakah Anda yakin ingin MENOLAK pesanan ini?');">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -154,13 +159,13 @@
         <!-- Quick Actions -->
         <div class="admin-quick-actions">
             <div class="admin-quick-title">QUICK ACTIONS</div>
-            <button class="admin-btn-full">
+            <a href="<?= base_url('admin/packages/create') ?>" class="admin-btn-full" style="text-decoration: none; display: flex; justify-content: space-between; align-items: center;">
                 <div class="admin-btn-full__left">
                     <i class="fa-solid fa-plus"></i>
                     Create New Package
                 </div>
                 <i class="fa-solid fa-chevron-right" style="color: #cbd5e1;"></i>
-            </button>
+            </a>
         </div>
     </div>
 </div>

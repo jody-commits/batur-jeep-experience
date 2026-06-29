@@ -30,10 +30,10 @@
         <p class="dash-welcome__sub">
             Your next adventure awaits at the heart of Mount Batur. Are you ready for the sunrise?
         </p>
-        <span class="dash-welcome__badge">
-            <i class="fa-solid fa-star"></i>
-            Elite Member
-        </span>
+        <a href="<?= base_url() ?>" class="dash-welcome__badge" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Home
+        </a>
     </div>
 </div>
 
@@ -76,7 +76,7 @@
             <span class="dash-stat__tag dash-stat__tag--gray">Pending Approval</span>
         </div>
         <p class="dash-stat__label">Awaiting Review</p>
-        <div class="dash-stat__value" id="stat-pending">01</div>
+        <div class="dash-stat__value" id="stat-pending"><?= str_pad((string)$pending, 2, '0', STR_PAD_LEFT) ?></div>
     </div>
 
 </div>
@@ -121,7 +121,7 @@
                         </div>
                     </td>
                     <td style="font-size:0.85rem; color:var(--gray-500);">
-                        <?= esc($booking['tour_date']) ?>
+                        <?= date('M d, Y', strtotime($booking['tour_date'])) ?>
                     </td>
                     <td>
                         <span class="status-badge status-badge--<?= esc($booking['status']) ?>">

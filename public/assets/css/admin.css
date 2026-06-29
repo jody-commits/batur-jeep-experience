@@ -571,7 +571,8 @@ img { display: block; max-width: 100%; }
     box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: row;
-    height: 220px;
+    min-height: 220px;
+    height: auto;
 }
 .admin-pkg-img {
     width: 200px;
@@ -609,18 +610,21 @@ img { display: block; max-width: 100%; }
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 0.5rem;
+    gap: 1rem;
 }
 .admin-pkg-title {
     font-family: var(--font-heading);
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--admin-sidebar-bg);
+    flex: 1;
 }
 .admin-pkg-price {
     font-family: var(--font-heading);
     font-size: 1.1rem;
     font-weight: 700;
     color: #059669;
+    white-space: nowrap;
 }
 .admin-pkg-desc {
     font-size: 0.8rem;

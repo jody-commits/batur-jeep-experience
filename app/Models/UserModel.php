@@ -58,7 +58,7 @@ class UserModel extends Model
         'name'     => 'required|min_length[3]|max_length[100]',
         'email'    => 'required|valid_email|max_length[150]|is_unique[users.email,id,{id}]',
         'password' => 'required|min_length[8]',
-        'phone'    => 'required|min_length[9]|max_length[15]',
+        'phone'    => 'required|min_length[9]|max_length[20]',
         'role'     => 'in_list[user,admin]',
     ];
 
@@ -81,7 +81,7 @@ class UserModel extends Model
         'phone' => [
             'required'   => 'Nomor WhatsApp wajib diisi.',
             'min_length' => 'Nomor telepon terlalu pendek (min 9 digit).',
-            'max_length' => 'Nomor telepon terlalu panjang (max 15 digit).',
+            'max_length' => 'Nomor telepon terlalu panjang (max 20 digit).',
         ],
     ];
 

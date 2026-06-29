@@ -52,18 +52,18 @@
         <div class="admin-filters">
             <div class="admin-search-wrapper" style="flex: 1;">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" class="admin-filter-input" placeholder="Search by ID or Name..." style="width: 100%;">
+                <input type="text" id="filter-search" class="admin-filter-input" placeholder="Search by ID or Name..." style="width: 100%;">
             </div>
-            <select class="admin-filter-select">
-                <option>All Statuses</option>
-                <option>Pending</option>
-                <option>Confirmed</option>
-                <option>Completed</option>
+            <select id="filter-status" class="admin-filter-select">
+                <option value="">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="completed">Completed</option>
             </select>
-            <input type="date" class="admin-filter-date" placeholder="mm/dd/yyyy">
+            <input type="date" id="filter-start" class="admin-filter-date" placeholder="mm/dd/yyyy">
             <span style="color: var(--admin-text-mut); font-size: 0.85rem;">to</span>
-            <input type="date" class="admin-filter-date" placeholder="mm/dd/yyyy">
-            <button class="admin-filter-reset">
+            <input type="date" id="filter-end" class="admin-filter-date" placeholder="mm/dd/yyyy">
+            <button id="filter-reset" class="admin-filter-reset">
                 <i class="fa-solid fa-rotate-right"></i> Reset Filters
             </button>
         </div>
@@ -84,8 +84,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($bookings as $row): ?>
-                        <tr>
+                        <?php foreach ($bookings as $index => $row): ?>
+                        <tr class="booking-row" 
+                            data-index="<?= $index ?>" 
+                            data-id="<?= strtolower(esc($row['id'])) ?>" 
+                            data-name="<?= strtolower(esc($row['guest'])) ?>" 
+                            data-status="<?= strtolower($row['status']) ?>" 
+                            data-date="<?= esc($row['date_raw']) ?>" 
+                            style="cursor: pointer;" onclick="viewBooking(<?= $index ?>)">
                             <td style="font-weight: 600; color: var(--admin-text-main); font-size: 0.85rem;">
                                 <?= esc($row['id']) ?>
                             </td>
@@ -113,13 +119,31 @@
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <div class="admin-actions">
-                                    <button class="admin-btn-icon" style="background: #f8fafc; border: 1px solid var(--admin-border); color: #10b981;" title="Approve">
-                                        <i class="fa-solid fa-check"></i>
-                                    </button>
-                                    <button class="admin-btn-icon" style="background: #f8fafc; border: 1px solid var(--admin-border); color: #ef4444;" title="Reject">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
+                                <div class="admin-actions" style="display:flex; gap:0.25rem;">
+                                    <?php if ($row['status'] === 'Pending'): ?>
+                                    <form action="<?= base_url('admin/bookings/update-status/' . $row['id_raw']) ?>" method="POST" style="display:inline;">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="status" value="confirmed">
+                                        <button type="submit" class="admin-btn-icon" style="background: #f8fafc; border: 1px solid var(--admin-border); color: #10b981;" title="Confirm Booking">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                    </form>
+                                    <form action="<?= base_url('admin/bookings/update-status/' . $row['id_raw']) ?>" method="POST" style="display:inline;">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="status" value="rejected">
+                                        <button type="submit" class="admin-btn-icon" style="background: #f8fafc; border: 1px solid var(--admin-border); color: #ef4444;" title="Reject Booking">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </form>
+                                    <?php elseif ($row['status'] === 'Confirmed'): ?>
+                                    <form action="<?= base_url('admin/bookings/update-status/' . $row['id_raw']) ?>" method="POST" style="display:inline;">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="status" value="completed">
+                                        <button type="submit" class="admin-btn-icon" style="background: #f8fafc; border: 1px solid var(--admin-border); color: #0284c7;" title="Mark as Completed">
+                                            <i class="fa-solid fa-check-double"></i>
+                                        </button>
+                                    </form>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>
@@ -127,8 +151,8 @@
                     </tbody>
                 </table>
                 <div style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--admin-border); font-size: 0.8rem; color: var(--admin-text-mut);">
-                    <div>Showing 1 to 3 of 17 results</div>
-                    <div style="display: flex; gap: 0.25rem;">
+                    <div id="filter-result-count">Showing <?= count($bookings) ?> results</div>
+                    <div style="display: flex; gap: 0.25rem; display: none;"><!-- Hidden pagination for now -->
                         <button style="border: none; background: none; padding: 0.25rem; color: var(--admin-text-mut);"><i class="fa-solid fa-chevron-left"></i></button>
                         <button style="background: var(--admin-sidebar-bg); color: #fff; border: none; width: 28px; height: 28px; border-radius: 4px;">1</button>
                         <button style="background: none; color: var(--admin-text-main); border: none; width: 28px; height: 28px; border-radius: 4px;">2</button>
@@ -145,56 +169,182 @@
     <div style="width: 320px; background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column;">
         <div style="background: var(--admin-sidebar-bg); padding: 1.25rem; display: flex; justify-content: space-between; align-items: center;">
             <h3 style="color: #fff; font-size: 1.1rem; font-family: var(--font-heading);">Booking Details</h3>
-            <button style="background: none; border: none; color: #fff; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div class="admin-booking-details__body">
-            <div class="admin-bd-top">
-                <div class="admin-bd-icon">
-                    <i class="fa-solid fa-ticket"></i>
-                </div>
-                <div style="font-size: 0.7rem; color: var(--admin-text-light); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0.25rem;">BOOKING ID</div>
-                <div class="admin-bd-id">BJE-20260611-0001</div>
-                <span class="admin-badge admin-badge--warning" style="font-size: 0.65rem;">PENDING PAYMENT</span>
+        <div class="admin-booking-details__body" style="overflow-y: auto; flex: 1;">
+            <div id="detail-empty" style="text-align: center; color: var(--admin-text-mut); padding: 2rem 0;">
+                Select a booking from the table to view details.
             </div>
             
-            <hr style="border: 0; border-top: 1px solid var(--admin-border); margin-bottom: 1.5rem;">
-            
-            <div class="admin-bd-grid">
-                <div>
-                    <div class="admin-bd-label">GUEST NAME</div>
-                    <div class="admin-bd-value">Budi Santoso</div>
+            <div id="detail-content" style="display: none;">
+                <div class="admin-bd-top">
+                    <div class="admin-bd-icon">
+                        <i class="fa-solid fa-ticket"></i>
+                    </div>
+                    <div style="font-size: 0.7rem; color: var(--admin-text-light); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0.25rem;">BOOKING ID</div>
+                    <div class="admin-bd-id" id="detail-id">BJE-XXXXX-XXXX</div>
+                    <span class="admin-badge" id="detail-status" style="font-size: 0.65rem;">STATUS</span>
                 </div>
-                <div>
-                    <div class="admin-bd-label">EXPEDITION</div>
-                    <div class="admin-bd-value" style="color: var(--admin-sidebar-bg);">Sunrise Batur</div>
+                
+                <hr style="border: 0; border-top: 1px solid var(--admin-border); margin-bottom: 1.5rem;">
+                
+                <div class="admin-bd-grid">
+                    <div>
+                        <div class="admin-bd-label">GUEST NAME</div>
+                        <div class="admin-bd-value" id="detail-guest">Name</div>
+                    </div>
+                    <div>
+                        <div class="admin-bd-label">EXPEDITION</div>
+                        <div class="admin-bd-value" id="detail-package" style="color: var(--admin-sidebar-bg);">Package</div>
+                    </div>
+                    <div>
+                        <div class="admin-bd-label">TOUR DATE</div>
+                        <div class="admin-bd-value" id="detail-date">Date</div>
+                    </div>
+                    <div>
+                        <div class="admin-bd-label">GUESTS</div>
+                        <div class="admin-bd-value" id="detail-pax">Pax</div>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <div class="admin-bd-label">TOTAL PRICE</div>
+                        <div class="admin-bd-value" id="detail-price" style="font-weight: 700; color: #059669;">Price</div>
+                    </div>
+                    
+                    <div style="grid-column: span 2;">
+                        <div class="admin-bd-label">CONTACT</div>
+                        <div class="admin-bd-value" style="font-size: 0.8rem;">
+                            <div id="detail-phone"><i class="fa-solid fa-phone" style="width: 16px;"></i> Phone</div>
+                            <div id="detail-email" style="margin-top: 0.25rem;"><i class="fa-solid fa-envelope" style="width: 16px;"></i> Email</div>
+                        </div>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <div class="admin-bd-label">HOTEL ADDRESS</div>
+                        <div class="admin-bd-value" id="detail-hotel" style="font-size: 0.8rem; line-height: 1.4;">Hotel</div>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <div class="admin-bd-label">NOTES / SPECIAL REQUEST</div>
+                        <div class="admin-bd-value" id="detail-notes" style="font-size: 0.8rem; line-height: 1.4; font-style: italic;">Notes</div>
+                    </div>
                 </div>
-                <div>
-                    <div class="admin-bd-label">TOUR DATE</div>
-                    <div class="admin-bd-value">15 Jun 2026</div>
-                </div>
-                <div>
-                    <div class="admin-bd-label">GUESTS</div>
-                    <div class="admin-bd-value">2 People</div>
+                
+                <div class="admin-bd-timeline-title" style="margin-top: 1.5rem;">ACTIVITY TIMELINE</div>
+                <div class="admin-bd-timeline">
+                    <div class="admin-bd-timeline-item active">
+                        <div class="admin-bd-timeline-title-item">Booking Received</div>
+                        <div class="admin-bd-timeline-desc" id="detail-created">Date</div>
+                    </div>
+                    <div class="admin-bd-timeline-item" style="opacity: 0.5;">
+                        <div class="admin-bd-timeline-title-item">Status Updated</div>
+                        <div class="admin-bd-timeline-desc" id="detail-timeline-status">Pending Confirmation</div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="admin-bd-timeline-title">ACTIVITY TIMELINE</div>
-            <div class="admin-bd-timeline">
-                <div class="admin-bd-timeline-item active">
-                    <div class="admin-bd-timeline-title-item">Booking Received</div>
-                    <div class="admin-bd-timeline-desc">10 Jun 2026 • 14:32</div>
-                </div>
-                <div class="admin-bd-timeline-item" style="opacity: 0.5;">
-                    <div class="admin-bd-timeline-title-item">Manual Confirmation Required</div>
-                    <div class="admin-bd-timeline-desc">Awaiting Admin action</div>
-                </div>
-            </div>
-        </div>
-        <div class="admin-booking-details__footer">
-            <button class="admin-btn-process">Process Booking</button>
-            <button class="admin-btn-delete"><i class="fa-regular fa-trash-can"></i></button>
         </div>
     </div>
 </div>
+
+<script>
+    const bookingsData = <?= json_encode($bookings) ?>;
+    
+    function viewBooking(index) {
+        const b = bookingsData[index];
+        
+        document.getElementById('detail-empty').style.display = 'none';
+        document.getElementById('detail-content').style.display = 'block';
+        
+        document.getElementById('detail-id').innerText = b.id;
+        document.getElementById('detail-guest').innerText = b.guest;
+        document.getElementById('detail-package').innerText = b.expedition;
+        document.getElementById('detail-date').innerText = b.date;
+        document.getElementById('detail-pax').innerText = b.pax + ' People';
+        document.getElementById('detail-price').innerText = b.price;
+        
+        document.getElementById('detail-phone').innerHTML = '<i class="fa-solid fa-phone" style="width: 16px;"></i> ' + b.phone;
+        document.getElementById('detail-email').innerHTML = '<i class="fa-solid fa-envelope" style="width: 16px;"></i> ' + b.email;
+        document.getElementById('detail-hotel').innerText = b.hotel;
+        document.getElementById('detail-notes').innerText = b.notes;
+        document.getElementById('detail-created').innerText = b.created_at;
+        
+        const statusEl = document.getElementById('detail-status');
+        statusEl.innerText = b.status.toUpperCase();
+        
+        // Reset status styling
+        statusEl.className = 'admin-badge';
+        if (b.status === 'Pending') {
+            statusEl.classList.add('admin-badge--warning');
+            document.getElementById('detail-timeline-status').innerText = 'Awaiting Admin Action';
+        } else if (b.status === 'Confirmed') {
+            statusEl.classList.add('admin-badge--success');
+            document.getElementById('detail-timeline-status').innerText = 'Booking Confirmed';
+        } else if (b.status === 'Completed') {
+            statusEl.style.background = '#e0f2fe';
+            statusEl.style.color = '#0284c7';
+            document.getElementById('detail-timeline-status').innerText = 'Tour Completed';
+        } else {
+            statusEl.style.background = '#fee2e2';
+            statusEl.style.color = '#ef4444';
+            document.getElementById('detail-timeline-status').innerText = b.status;
+        }
+    }
+    
+    // Filter Logic
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('filter-search');
+        const statusSelect = document.getElementById('filter-status');
+        const startDate = document.getElementById('filter-start');
+        const endDate = document.getElementById('filter-end');
+        const resetBtn = document.getElementById('filter-reset');
+        const rows = document.querySelectorAll('.booking-row');
+        const resultCount = document.getElementById('filter-result-count');
+        
+        function filterTable() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const statusTerm = statusSelect.value.toLowerCase();
+            const startVal = startDate.value;
+            const endVal = endDate.value;
+            
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const id = row.getAttribute('data-id');
+                const name = row.getAttribute('data-name');
+                const status = row.getAttribute('data-status');
+                const date = row.getAttribute('data-date');
+                
+                // Text matching
+                const matchesSearch = id.includes(searchTerm) || name.includes(searchTerm);
+                
+                // Status matching
+                const matchesStatus = statusTerm === '' || status === statusTerm;
+                
+                // Date matching
+                let matchesDate = true;
+                if (startVal && date < startVal) matchesDate = false;
+                if (endVal && date > endVal) matchesDate = false;
+                
+                if (matchesSearch && matchesStatus && matchesDate) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            resultCount.innerText = 'Showing ' + visibleCount + ' results';
+        }
+        
+        searchInput.addEventListener('input', filterTable);
+        statusSelect.addEventListener('change', filterTable);
+        startDate.addEventListener('change', filterTable);
+        endDate.addEventListener('change', filterTable);
+        
+        resetBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            statusSelect.value = '';
+            startDate.value = '';
+            endDate.value = '';
+            filterTable();
+        });
+    });
+</script>
 
 <?= $this->endSection() ?>

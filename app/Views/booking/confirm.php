@@ -125,7 +125,7 @@
 
     <!-- ── CTA Buttons ── -->
     <div class="confirm-actions">
-        <a href="<?= base_url('customer/bookings') ?>" class="btn-confirm-mybookings" id="btn-view-bookings">
+        <a href="<?= base_url('user/bookings') ?>" class="btn-confirm-mybookings" id="btn-view-bookings">
             View My Bookings <i class="fa-solid fa-arrow-right"></i>
         </a>
         <a href="<?= base_url('/') ?>" class="btn-confirm-home" id="btn-back-home">

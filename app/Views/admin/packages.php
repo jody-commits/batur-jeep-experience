@@ -8,9 +8,9 @@
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" placeholder="Search packages...">
     </div>
-    <button class="admin-btn-primary">
+    <a href="<?= base_url('admin/packages/create') ?>" class="admin-btn-primary" style="text-decoration: none;">
         <i class="fa-solid fa-plus"></i> ADD NEW PACKAGE
-    </button>
+    </a>
 </div>
 
 <!-- ── STAT CARDS ────────────────────────────────────────────── -->
@@ -52,8 +52,15 @@
             <!-- Using a generic placeholder since real images might not exist -->
             <img src="<?= base_url('assets/images/' . $pkg['image']) ?>" alt="Package Image" onerror="this.src='https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=400&q=80'">
             <div class="admin-pkg-badges">
-                <span class="admin-pkg-badge">ACTIVE</span>
-                <span class="admin-pkg-badge" style="background: rgba(255,255,255,0.9); color: #059669;">HOTEL PICKUP</span>
+                <?php if ($pkg['is_active']): ?>
+                    <span class="admin-pkg-badge">ACTIVE</span>
+                <?php else: ?>
+                    <span class="admin-pkg-badge" style="background: rgba(239,68,68,0.9); color: #fff;">INACTIVE</span>
+                <?php endif; ?>
+                
+                <?php if ($pkg['is_pickup']): ?>
+                    <span class="admin-pkg-badge" style="background: rgba(255,255,255,0.9); color: #059669;">HOTEL PICKUP</span>
+                <?php endif; ?>
             </div>
         </div>
         
@@ -68,16 +75,19 @@
             
             <div class="admin-pkg-meta">
                 <div><i class="fa-regular fa-clock"></i> <?= esc($pkg['duration']) ?></div>
+                <div><i class="fa-solid fa-car"></i> <?= esc($pkg['pickup_time']) ?></div>
                 <div><i class="fa-solid fa-user-group"></i> <?= esc($pkg['guests']) ?></div>
             </div>
             
             <div class="admin-pkg-actions">
-                <button class="admin-btn-action admin-btn-action--edit">
+                <a href="<?= base_url('admin/packages/edit/' . $pkg['id']) ?>" class="admin-btn-action admin-btn-action--edit" style="text-decoration:none; text-align:center;">
                     <i class="fa-solid fa-pen"></i> Edit
-                </button>
-                <button class="admin-btn-action admin-btn-action--delete">
-                    <i class="fa-regular fa-trash-can"></i> Delete
-                </button>
+                </a>
+                <form action="<?= base_url('admin/packages/delete/' . $pkg['id']) ?>" method="post" style="display:inline; width: 48%;" onsubmit="return confirm('Are you sure you want to delete this package?');">
+                    <button type="submit" class="admin-btn-action admin-btn-action--delete" style="width: 100%;">
+                        <i class="fa-regular fa-trash-can"></i> Delete
+                    </button>
+                </form>
             </div>
         </div>
     </div>

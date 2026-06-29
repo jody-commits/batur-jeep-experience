@@ -131,8 +131,6 @@ class Auth extends BaseController
             // Set session expiration ke 30 hari
             session()->set('remember_me', true);
             // Note: untuk implementasi full remember-me, gunakan token DB
-            // Di sini kita extend session expiry saja
-            ini_set('session.cookie_lifetime', (string)(60 * 60 * 24 * 30));
         }
 
         // ── Redirect berdasarkan role ───────────────────────
@@ -175,7 +173,7 @@ class Auth extends BaseController
         $rules = [
             'name'        => 'required|min_length[3]|max_length[100]',
             'email'       => 'required|valid_email|max_length[150]|is_unique[users.email]',
-            'phone'       => 'required|min_length[9]|max_length[15]',
+            'phone'       => 'required|min_length[9]|max_length[20]',
             'password'    => 'required|min_length[8]|max_length[255]',
             'agree_terms' => 'required',
         ];
@@ -306,7 +304,7 @@ class Auth extends BaseController
         $role = session()->get('user_role');
 
         if ($role === 'admin') {
-            return redirect()->to(base_url('admin'));
+            return redirect()->to(base_url('admin/dashboard'));
         }
 
         return redirect()->to(base_url('user/dashboard'));

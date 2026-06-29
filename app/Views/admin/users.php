@@ -108,7 +108,7 @@
                         <span class="admin-badge <?= $roleClass ?>"><?= esc($row['role']) ?></span>
                     </td>
                     <td>
-                        <span class="admin-badge <?= $row['status'] === 'Active' ? 'admin-badge--status-active' : 'admin-badge--status-inactive' ?>">
+                        <span class="admin-badge <?= $row['status'] === 'Active' ? 'admin-badge--status-active' : ($row['status'] === 'Deleted' ? 'admin-badge--role-guide' : 'admin-badge--status-inactive') ?>">
                             <?= esc($row['status']) ?>
                         </span>
                     </td>
@@ -130,7 +130,7 @@
             </tbody>
         </table>
         <div style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--admin-border); font-size: 0.8rem; color: var(--admin-text-mut);">
-            <div>Showing 1-10 of 1,284 users</div>
+            <div>Showing all <?= esc($stats['total']) ?> users</div>
             <div style="display: flex; gap: 0.25rem;">
                 <button style="border: none; background: none; padding: 0.25rem; color: var(--admin-text-mut);"><i class="fa-solid fa-chevron-left"></i></button>
                 <button style="background: var(--admin-sidebar-bg); color: #fff; border: none; width: 28px; height: 28px; border-radius: 4px;">1</button>
