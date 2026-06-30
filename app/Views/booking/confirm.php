@@ -55,9 +55,29 @@
 
         <div class="confirm-details-header">
             <h2 class="confirm-details-title">Booking Details</h2>
-            <span class="confirm-status-badge confirm-status-badge--pending">
-                <i class="fa-solid fa-circle"></i>
-                Awaiting Admin Confirmation
+            <?php
+            $statusStr = strtolower($booking['status'] ?? 'pending');
+            $badgeClass = 'confirm-status-badge--pending';
+            $statusText = 'Awaiting Admin Confirmation';
+            $icon = 'fa-circle';
+            
+            if ($statusStr === 'confirmed') {
+                $badgeClass = 'confirm-status-badge--confirmed';
+                $statusText = 'Booking Confirmed';
+                $icon = 'fa-circle-check';
+            } elseif ($statusStr === 'completed') {
+                $badgeClass = 'confirm-status-badge--confirmed'; // Use same styling as confirmed
+                $statusText = 'Experience Completed';
+                $icon = 'fa-check-double';
+            } elseif ($statusStr === 'cancelled' || $statusStr === 'rejected') {
+                $badgeClass = 'confirm-status-badge--pending'; // fallback if no error style
+                $statusText = 'Booking ' . ucfirst($statusStr);
+                $icon = 'fa-circle-xmark';
+            }
+            ?>
+            <span class="confirm-status-badge <?= $badgeClass ?>">
+                <i class="fa-solid <?= $icon ?>"></i>
+                <?= $statusText ?>
             </span>
         </div>
 

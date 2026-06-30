@@ -8,11 +8,12 @@
     <div class="navbar__container">
 
         <!-- Brand Logo -->
-        <a href="<?= base_url('/') ?>" class="navbar__brand" aria-label="Batur Jeep Experience — Home">
-            <span class="navbar__brand-icon">
-                <i class="fa-solid fa-truck-monster"></i>
-            </span>
-            <span class="navbar__brand-text">Batur Jeep<br><em>Experience</em></span>
+        <a href="<?= base_url('/') ?>" class="navbar__brand" aria-label="Batur Jeep Experience — Home" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+            <img src="<?= base_url('assets/images/bje-logo.png') ?>" alt="Batur Jeep Experience Logo" style="height: 55px; width: auto; max-height: 100%;">
+            <div style="display: flex; flex-direction: column; text-align: left; line-height: 1;">
+                <span style="color: #FF7A00; font-family: 'Permanent Marker', cursive; font-size: 1.1rem; letter-spacing: 1px;">BATUR JEEP</span>
+                <span style="font-family: 'Permanent Marker', cursive; font-size: 1.4rem; background: -webkit-linear-gradient(left, #8b5cf6, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px;">EXPERIENCE</span>
+            </div>
         </a>
 
         <!-- Desktop Navigation -->

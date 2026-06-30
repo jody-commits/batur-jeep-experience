@@ -58,6 +58,9 @@
             <a href="<?= base_url('admin/users') ?>" class="admin-sidebar__link <?= str_contains(current_url(), 'users') ? 'is-active' : '' ?>">
                 <i class="fa-solid fa-users"></i> Manage Users
             </a>
+            <a href="<?= base_url('admin/reviews') ?>" class="admin-sidebar__link <?= str_contains(current_url(), 'reviews') ? 'is-active' : '' ?>">
+                <i class="fa-solid fa-star"></i> Manage Reviews
+            </a>
         </nav>
 
         <a href="<?= base_url('auth/logout') ?>" class="admin-sidebar__logout">

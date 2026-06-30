@@ -270,122 +270,55 @@
 <section class="testimonials-section" id="testimonials-section" aria-labelledby="testimonials-heading">
     <div class="container">
 
-        <div class="section-header" data-aos="fade-up">
+        <div class="section-header" data-aos="fade-up" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
             <span class="section-header__eyebrow">What Guests Say</span>
             <h2 class="section-header__title" id="testimonials-heading">Real Stories, Real Adventures</h2>
             <p class="section-header__desc">
                 Over 500 adventurers have trusted us with their Bali highland experience.
             </p>
+            <button class="btn btn--outline-primary btn--sm" id="btn-write-review" style="margin-top: 1rem;">
+                <i class="fa-solid fa-pen"></i> Write a Review
+            </button>
         </div>
 
         <!-- Testimonial Slider -->
         <div class="testimonials-slider" id="testimonials-slider" data-aos="fade-up" data-delay="100">
             <div class="testimonials-track" id="testimonials-track">
 
-                <!-- Testimonial 1 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-card__stars">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <blockquote class="testimonial-card__text">
-                        "Absolutely phenomenal experience! Watching the sunrise over the Batur crater from the Jeep was otherworldly. Our driver Wayan was hilarious and incredibly knowledgeable."
-                    </blockquote>
-                    <div class="testimonial-card__author">
-                        <div class="testimonial-card__avatar" style="background: linear-gradient(135deg, #F4A261, #e08040);">
-                            <span>SA</span>
+                <?php if (!empty($reviews)): ?>
+                    <?php foreach ($reviews as $rev): ?>
+                    <!-- Testimonial -->
+                    <div class="testimonial-card">
+                        <div class="testimonial-card__stars">
+                            <?php for ($i=0; $i<$rev['rating']; $i++): ?><i class="fa-solid fa-star"></i><?php endfor; ?>
                         </div>
-                        <div class="testimonial-card__info">
-                            <strong>Sarah Anderson</strong>
-                            <span>Sydney, Australia · Sunrise Batur</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 2 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-card__stars">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <blockquote class="testimonial-card__text">
-                        "Best adventure I've had in Bali! The full-day offroad package was thrilling — driving through lava fields felt like being on another planet. 100% would recommend!"
-                    </blockquote>
-                    <div class="testimonial-card__author">
-                        <div class="testimonial-card__avatar" style="background: linear-gradient(135deg, #2D6A4F, #1e4d38);">
-                            <span>TK</span>
-                        </div>
-                        <div class="testimonial-card__info">
-                            <strong>Tanaka Kenji</strong>
-                            <span>Tokyo, Japan · Offroad Full Day</span>
+                        <blockquote class="testimonial-card__text">
+                            "<?= esc($rev['review_text']) ?>"
+                        </blockquote>
+                        <div class="testimonial-card__author">
+                            <?php
+                            $initials = strtoupper(substr($rev['name'], 0, 1));
+                            $words = explode(' ', $rev['name']);
+                            if (count($words) > 1) {
+                                $initials .= strtoupper(substr($words[1], 0, 1));
+                            }
+                            // Generate a consistent random color based on name
+                            $colors = ['linear-gradient(135deg, #F4A261, #e08040)', 'linear-gradient(135deg, #2D6A4F, #1e4d38)', 'linear-gradient(135deg, #1D3557, #2563a8)', 'linear-gradient(135deg, #E9C46A, #c9a030)', 'linear-gradient(135deg, #e63946, #b02330)'];
+                            $color = $colors[strlen($rev['name']) % count($colors)];
+                            ?>
+                            <div class="testimonial-card__avatar" style="background: <?= $color ?>;">
+                                <span><?= $initials ?></span>
+                            </div>
+                            <div class="testimonial-card__info">
+                                <strong><?= esc($rev['name']) ?></strong>
+                                <span><?= esc($rev['location']) ?> · <?= esc($rev['package_name']) ?></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-card__stars">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <blockquote class="testimonial-card__text">
-                        "We booked the private trip for our anniversary. The hotel pickup was seamless. The caldera views were stunning. A truly romantic and memorable experience!"
-                    </blockquote>
-                    <div class="testimonial-card__author">
-                        <div class="testimonial-card__avatar" style="background: linear-gradient(135deg, #1D3557, #2563a8);">
-                            <span>ML</span>
-                        </div>
-                        <div class="testimonial-card__info">
-                            <strong>Marie Laurent</strong>
-                            <span>Paris, France · Private Trip</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 4 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-card__stars">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <blockquote class="testimonial-card__text">
-                        "We came as a family of 5. The kids absolutely loved it! Safe, exciting, and the guides were so patient with the children. Will definitely book again next visit!"
-                    </blockquote>
-                    <div class="testimonial-card__author">
-                        <div class="testimonial-card__avatar" style="background: linear-gradient(135deg, #E9C46A, #c9a030);">
-                            <span>RP</span>
-                        </div>
-                        <div class="testimonial-card__info">
-                            <strong>Ravi Patel</strong>
-                            <span>Mumbai, India · Family Package</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 5 -->
-                <div class="testimonial-card">
-                    <div class="testimonial-card__stars">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <blockquote class="testimonial-card__text">
-                        "Booking was super easy online, hotel pickup was on time at 3:30 AM, and the sunrise views were breathtaking. Professional service from start to finish!"
-                    </blockquote>
-                    <div class="testimonial-card__author">
-                        <div class="testimonial-card__avatar" style="background: linear-gradient(135deg, #52B788, #2d8b5a);">
-                            <span>JW</span>
-                        </div>
-                        <div class="testimonial-card__info">
-                            <strong>Jessica Wong</strong>
-                            <span>Singapore · Sunrise Batur</span>
-                        </div>
-                    </div>
-                </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="text-align:center; width:100%; color:#6b7280; padding: 2rem;">No reviews yet. Be the first to share your experience!</p>
+                <?php endif; ?>
 
             </div><!-- /.testimonials-track -->
         </div><!-- /.testimonials-slider -->
@@ -471,7 +404,7 @@
                     Our Basecamp at<br>Songan, Kintamani
                 </h2>
                 <p class="location-content__desc">
-                    Located at songan viewpoint overlooking Mount Batur and Batur Lake.
+                    Located at songan viewpoint overlooking Mount Batur.
                     The most strategic starting point for your volcanic expedition.
                 </p>
 
@@ -549,5 +482,88 @@
         </div>
     </div>
 </section>
+
+<!-- ── Write Review Modal ── -->
+<div class="lightbox-modal" id="review-modal">
+    <button class="lightbox-close" id="review-close"><i class="fa-solid fa-xmark"></i></button>
+    <div class="lightbox-content" style="background: #fff; padding: 2rem; border-radius: 12px; width: 90%; max-width: 500px; color: #1f2937;">
+        <h3 style="margin-bottom: 1rem; color: #2D6A4F;">Write a Review</h3>
+        <form action="<?= base_url('reviews') ?>" method="post">
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="reviewer_name" style="display:block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">Your Name</label>
+                <input type="text" name="reviewer_name" id="reviewer_name" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="reviewer_location" style="display:block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">Location (e.g. Sydney, Australia)</label>
+                <input type="text" name="reviewer_location" id="reviewer_location" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="reviewer_package" style="display:block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">Tour Package</label>
+                <select name="reviewer_package" id="reviewer_package" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; background: #f9fafb;">
+                    <?php foreach ($packages as $pkg): ?>
+                        <option value="<?= esc($pkg['name']) ?>"><?= esc($pkg['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="reviewer_rating" style="display:block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">Rating (1 to 5)</label>
+                <input type="number" name="reviewer_rating" id="reviewer_rating" min="1" max="5" value="5" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <label for="reviewer_text" style="display:block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">Review</label>
+                <textarea name="reviewer_text" id="reviewer_text" rows="4" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; resize: vertical;"></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary" style="width: 100%; justify-content: center;">Submit Review</button>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Lightbox Modal (reused from booking css if not available here) */
+.lightbox-modal {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.9); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.lightbox-modal.is-active { opacity: 1; pointer-events: auto; }
+.lightbox-close {
+    position: absolute; top: 20px; right: 30px; background: transparent;
+    border: none; color: #fff; font-size: 2rem; cursor: pointer; z-index: 10000;
+}
+.lightbox-content { position: relative; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btnWriteReview = document.getElementById('btn-write-review');
+    var reviewModal = document.getElementById('review-modal');
+    var reviewClose = document.getElementById('review-close');
+
+    if (btnWriteReview && reviewModal) {
+        btnWriteReview.addEventListener('click', function() {
+            reviewModal.classList.add('is-active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    
+    if (reviewClose && reviewModal) {
+        reviewClose.addEventListener('click', function() {
+            reviewModal.classList.remove('is-active');
+            document.body.style.overflow = '';
+        });
+    }
+
+    // Close when clicking outside
+    if (reviewModal) {
+        reviewModal.addEventListener('click', function(e) {
+            if (e.target === reviewModal) {
+                reviewModal.classList.remove('is-active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+});
+</script>
 
 <?= $this->endSection() ?>

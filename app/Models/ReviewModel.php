@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models;
+
+use CodeIgniter\Model;
+
+class ReviewModel extends Model
+{
+    protected $table            = 'reviews';
+    protected $primaryKey       = 'id';
+    protected $useAutoIncrement = true;
+    protected $returnType       = 'array';
+    protected $useSoftDeletes   = false;
+    protected $protectFields    = true;
+    protected $allowedFields    = [
+        'name',
+        'location',
+        'package_name',
+        'rating',
+        'review_text',
+        'status',
+    ];
+
+    // Dates
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+
+    public function getApprovedReviews()
+    {
+        return $this->where('status', 'approved')
+                    ->orderBy('created_at', 'DESC')
+                    ->findAll();
+    }
+}

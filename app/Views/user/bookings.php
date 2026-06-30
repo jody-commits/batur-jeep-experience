@@ -173,7 +173,7 @@
                        id="btn-cancel-<?= esc($booking['booking_code']) ?>">
                         Cancel Booking
                     </a>
-                    <a href="<?= base_url('user/bookings') ?>" class="btn-booking btn-booking--primary"
+                    <a href="<?= base_url('booking/confirm/' . esc($booking['booking_code'])) ?>" class="btn-booking btn-booking--primary"
                        id="btn-detail-<?= esc($booking['booking_code']) ?>">
                         View Details
                     </a>
@@ -183,9 +183,9 @@
                        id="btn-rebook-<?= esc($booking['booking_code']) ?>">
                         Rebook
                     </a>
-                    <a href="#" class="btn-booking btn-booking--accent"
-                       id="btn-review-<?= esc($booking['booking_code']) ?>">
-                        Write Review
+                    <a href="<?= base_url('booking/confirm/' . esc($booking['booking_code'])) ?>" class="btn-booking btn-booking--primary"
+                       id="btn-detail-<?= esc($booking['booking_code']) ?>">
+                        View Details
                     </a>
 
                 <?php elseif ($booking['status'] === 'pending'): ?>
@@ -194,11 +194,19 @@
                        id="btn-cancelreq-<?= esc($booking['booking_code']) ?>">
                         Cancel Request
                     </a>
+                    <a href="<?= base_url('booking/confirm/' . esc($booking['booking_code'])) ?>" class="btn-booking btn-booking--primary"
+                       id="btn-detail-<?= esc($booking['booking_code']) ?>">
+                        View Details
+                    </a>
 
                 <?php else: ?>
                     <a href="<?= base_url('booking') ?>" class="btn-booking btn-booking--outline"
                        id="btn-rebook2-<?= esc($booking['booking_code']) ?>">
                         Book Again
+                    </a>
+                    <a href="<?= base_url('booking/confirm/' . esc($booking['booking_code'])) ?>" class="btn-booking btn-booking--primary"
+                       id="btn-detail-<?= esc($booking['booking_code']) ?>">
+                        View Details
                     </a>
                 <?php endif; ?>
             </div>

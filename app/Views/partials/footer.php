@@ -11,9 +11,12 @@
 
                 <!-- Column 1: Brand -->
                 <div class="footer__col footer__col--brand">
-                    <a href="<?= base_url('/') ?>" class="footer__brand" aria-label="Batur Jeep Experience">
-                        <span class="footer__brand-icon"><i class="fa-solid fa-mountain-sun"></i></span>
-                        <span class="footer__brand-name">Batur Jeep<br><em>Experience</em></span>
+                    <a href="<?= base_url('/') ?>" class="footer__brand" aria-label="Batur Jeep Experience" style="display:flex; align-items:center; gap:8px; margin-bottom:1.5rem; text-decoration:none;">
+                        <img src="<?= base_url('assets/images/bje-logo.png') ?>" alt="Batur Jeep Experience Logo" style="max-height: 80px; width: auto; background: white; padding: 5px; border-radius: 50%;">
+                        <div style="display: flex; flex-direction: column; text-align: left; line-height: 1;">
+                            <span style="color: #FF7A00; font-family: 'Permanent Marker', cursive; font-size: 1.3rem; letter-spacing: 1px;">BATUR JEEP</span>
+                            <span style="font-family: 'Permanent Marker', cursive; font-size: 1.6rem; background: -webkit-linear-gradient(left, #8b5cf6, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px;">EXPERIENCE</span>
+                        </div>
                     </a>
                     <p class="footer__brand-desc">
                         Premium off-road expeditions to the heart of Mount Batur.

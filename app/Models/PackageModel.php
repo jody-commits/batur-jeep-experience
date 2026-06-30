@@ -29,6 +29,9 @@ class PackageModel extends Model
         'pickup_time',
         'is_pickup',
         'thumbnail',
+        'image2',
+        'image3',
+        'image4',
         'is_active',
     ];
 

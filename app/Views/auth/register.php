@@ -17,7 +17,7 @@
 
         <!-- Background image -->
         <div class="auth-left__bg"
-             style="background-image: url('<?= base_url('assets/images/kintamani-green-hero.png') ?>');">
+             style="background-image: url('<?= base_url('assets/images/jeep-merah.jpg') ?>');">
         </div>
 
         <!-- Gradient overlay (lebih gelap di bawah untuk teks) -->
@@ -26,9 +26,12 @@
         </div>
 
         <!-- Brand logo -->
-        <a href="<?= base_url('/') ?>" class="auth-left__brand" aria-label="Batur Jeep Experience — Home">
-            <div class="auth-left__brand-icon">🚙</div>
-            <div class="auth-left__brand-name">Batur Jeep<br>Experience</div>
+        <a href="<?= base_url('/') ?>" class="auth-left__brand" aria-label="Batur Jeep Experience — Home" style="display:flex; align-items:center; gap:8px; margin-top:20px; margin-left:20px; text-decoration:none;">
+            <img src="<?= base_url('assets/images/bje-logo.png') ?>" alt="Batur Jeep Experience Logo" style="max-height: 80px; width: auto; background: white; padding: 5px; border-radius: 50%;">
+            <div style="display: flex; flex-direction: column; text-align: left; line-height: 1;">
+                <span style="color: #FF7A00; font-family: 'Permanent Marker', cursive; font-size: 1.3rem; letter-spacing: 1px;">BATUR JEEP</span>
+                <span style="font-family: 'Permanent Marker', cursive; font-size: 1.6rem; background: -webkit-linear-gradient(left, #8b5cf6, #3b82f6, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px;">EXPERIENCE</span>
+            </div>
         </a>
 
         <!-- Headline + Feature cards -->
@@ -171,23 +174,18 @@
                 <div class="form-group">
                     <label class="form-label" for="reg-phone">WhatsApp Number</label>
                     <div class="input-wrapper">
-                        <!-- Prefix flag (+62) -->
-                        <span class="input-prefix">
-                            <span class="input-prefix-flag">🇮🇩</span>
-                            <span>+62</span>
-                        </span>
                         <input
                             type="tel"
                             id="reg-phone"
                             name="phone"
-                            class="form-control has-prefix <?= isset($errors['phone']) ? 'is-invalid' : '' ?>"
-                            placeholder="812-3456-7890"
+                            class="form-control <?= isset($errors['phone']) ? 'is-invalid' : '' ?>"
+                            placeholder="+62 812-3456-7890"
                             value="<?= esc(old('phone')) ?>"
                             autocomplete="tel"
                             required
                             minlength="9"
-                            maxlength="15"
-                            pattern="[0-9\-\s]+">
+                            maxlength="20"
+                            pattern="[\+0-9\-\s]+">
                     </div>
                     <?php if (isset($errors['phone'])): ?>
                         <span class="form-error">

@@ -48,7 +48,9 @@
                 <div class="booking-pkg-row">
                     <div>
                         <h2 class="booking-pkg-name" id="pkg-display-name"><?= esc($selected['name']) ?></h2>
-                        <p class="booking-pkg-desc" id="pkg-display-desc"><?= esc($selected['subtitle']) ?></p>
+                        <div class="booking-pkg-full-desc" id="pkg-display-full-desc">
+                            <?= esc($selected['description']) ?>
+                        </div>
                     </div>
                     <div class="booking-pkg-price-container">
                         <div class="booking-pkg-price-wrap">
@@ -69,10 +71,13 @@
                         <div class="pkg-select-item<?= $pkg['id'] === $selectedId ? ' is-active' : '' ?>"
                              data-pkg-id="<?= $pkg['id'] ?>"
                              data-pkg-name="<?= esc($pkg['name']) ?>"
-                             data-pkg-desc="<?= esc($pkg['subtitle']) ?>"
+                             data-pkg-fulldesc="<?= esc($pkg['description']) ?>"
                              data-pkg-price="<?= $pkg['price'] ?>"
                              data-pkg-price-fmt="Rp <?= number_format($pkg['price'], 0, ',', '.') ?>"
                              data-pkg-image="<?= base_url('assets/images/' . $pkg['image']) ?>"
+                             data-pkg-img2="<?= !empty($pkg['image2']) ? base_url('assets/images/' . $pkg['image2']) : '' ?>"
+                             data-pkg-img3="<?= !empty($pkg['image3']) ? base_url('assets/images/' . $pkg['image3']) : '' ?>"
+                             data-pkg-img4="<?= !empty($pkg['image4']) ? base_url('assets/images/' . $pkg['image4']) : '' ?>"
                              data-pkg-pickup="<?= esc($pkg['pickup_time'] ?? '') ?>"
                              data-pkg-included="<?= esc(implode('||', $pkg['included'])) ?>">
                             <span class="pkg-select-item-name"><?= esc($pkg['name']) ?></span>
@@ -107,14 +112,13 @@
                         </div>
                         <div class="form-group">
                             <label for="whatsapp" class="form-label">WhatsApp Number</label>
-                            <div class="form-input-icon-wrap">
-                                <span class="form-input-icon">+</span>
+                            <div class="form-input-icon-wrap" style="display: block;">
                                 <input
                                     type="tel"
                                     name="whatsapp"
                                     id="whatsapp"
-                                    class="form-input form-input--phone"
-                                    placeholder="62 812 3456 789"
+                                    class="form-input"
+                                    placeholder="+62 812 3456 789"
                                     value="<?= old('whatsapp') ?>"
                                     required>
                             </div>
@@ -215,11 +219,16 @@
             <div class="booking-summary-card">
 
                 <!-- Jeep / Package Image -->
-                <div class="booking-summary-img" id="summary-img-wrap">
-                    <img src="<?= base_url('assets/images/' . $selected['image']) ?>"
-                         alt="<?= esc($selected['name']) ?>"
-                         id="summary-img">
-                    <div class="booking-summary-img-badge">Expedition Summary</div>
+                <div class="booking-gallery-wrapper" id="gallery-wrapper">
+                    <div class="booking-summary-img" id="summary-img-wrap">
+                        <img src="<?= base_url('assets/images/' . $selected['image']) ?>" id="summary-main-img" alt="<?= esc($selected['name']) ?>">
+                    </div>
+                    
+                    <button type="button" class="btn-view-more-pics" id="btn-view-more" style="display: <?= !empty($selected['image2']) ? 'flex' : 'none' ?>;">
+                        <i class="fa-solid fa-images"></i> View more pictures
+                    </button>
+                    
+                    <div class="booking-summary-img-badge" style="z-index: 10;">Expedition Summary</div>
                 </div>
 
                 <div class="booking-summary-body">
@@ -258,6 +267,15 @@
                         </div>
                     </div>
 
+                    <!-- Payment info badge -->
+                    <div class="booking-instant-badge" style="background: #f0fdf4; border: 1px solid #bbf7d0; margin-top: 10px;">
+                        <i class="fa-solid fa-wallet" style="color: #16a34a;"></i>
+                        <div class="booking-instant-badge-text">
+                            <strong style="color: #166534;">Payment on the spot</strong>
+                            <p style="color: #15803d;">You can pay via Cash or Credit Card when you arrive.</p>
+                        </div>
+                    </div>
+
                     <!-- Included items -->
                     <ul class="booking-included-list" id="summary-included">
                         <?php if (!empty($selected['pickup_time'])): ?>
@@ -280,7 +298,27 @@
         </div><!-- /.booking-right -->
 
     </div><!-- /.booking-layout -->
+</div>
 
+<!-- ── Lightbox Modal ── -->
+<div class="lightbox-modal" id="lightbox-modal">
+    <button class="lightbox-close" id="lightbox-close"><i class="fa-solid fa-xmark"></i></button>
+    <div class="lightbox-content">
+        <button class="lightbox-nav prev" id="lightbox-prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <div id="lightbox-images-container">
+            <img src="<?= base_url('assets/images/' . $selected['image']) ?>" class="lightbox-img is-active">
+            <?php if (!empty($selected['image2'])): ?>
+            <img src="<?= base_url('assets/images/' . $selected['image2']) ?>" class="lightbox-img">
+            <?php endif; ?>
+            <?php if (!empty($selected['image3'])): ?>
+            <img src="<?= base_url('assets/images/' . $selected['image3']) ?>" class="lightbox-img">
+            <?php endif; ?>
+            <?php if (!empty($selected['image4'])): ?>
+            <img src="<?= base_url('assets/images/' . $selected['image4']) ?>" class="lightbox-img">
+            <?php endif; ?>
+        </div>
+        <button class="lightbox-nav next" id="lightbox-next"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
 </div><!-- /.container -->
 </div><!-- /.booking-page -->
 
@@ -321,22 +359,41 @@
             // Read data
             var id      = item.getAttribute('data-pkg-id');
             var name    = item.getAttribute('data-pkg-name');
-            var desc    = item.getAttribute('data-pkg-desc');
+            var fullDesc= item.getAttribute('data-pkg-fulldesc');
             var price   = parseInt(item.getAttribute('data-pkg-price'), 10);
             var priceFmt= item.getAttribute('data-pkg-price-fmt');
             var imgSrc  = item.getAttribute('data-pkg-image');
+            var img2    = item.getAttribute('data-pkg-img2');
+            var img3    = item.getAttribute('data-pkg-img3');
+            var img4    = item.getAttribute('data-pkg-img4');
             var pickupT = item.getAttribute('data-pkg-pickup');
             var included= item.getAttribute('data-pkg-included').split('||');
 
             // Update card header
             document.getElementById('pkg-display-name').textContent = name;
-            document.getElementById('pkg-display-desc').textContent = desc;
+            document.getElementById('pkg-display-full-desc').textContent = fullDesc;
             document.getElementById('pkg-display-price').textContent = priceFmt;
             document.getElementById('form-pkg-id').value = id;
 
-            // Update summary
-            document.getElementById('summary-img').src = imgSrc;
-            document.getElementById('summary-img').alt = name;
+            // Update summary image and lightbox
+            var mainImg = document.getElementById('summary-main-img');
+            mainImg.src = imgSrc;
+            mainImg.alt = name;
+            
+            var lightboxContainer = document.getElementById('lightbox-images-container');
+            var lbHtml = '<img src="' + imgSrc + '" class="lightbox-img is-active">';
+            var imgCount = 1;
+            if (img2) { lbHtml += '<img src="' + img2 + '" class="lightbox-img">'; imgCount++; }
+            if (img3) { lbHtml += '<img src="' + img3 + '" class="lightbox-img">'; imgCount++; }
+            if (img4) { lbHtml += '<img src="' + img4 + '" class="lightbox-img">'; imgCount++; }
+            lightboxContainer.innerHTML = lbHtml;
+            
+            // Show/hide view more button based on count
+            if (imgCount > 1) {
+                document.getElementById('btn-view-more').style.display = 'flex';
+            } else {
+                document.getElementById('btn-view-more').style.display = 'none';
+            }
 
             // Update included list
             var incList = document.getElementById('summary-included');
@@ -450,7 +507,72 @@
     if (dateInput && !dateInput.value) {
         var tmr = new Date();
         tmr.setDate(tmr.getDate() + 1);
-        dateInput.min = tmr.toISOString().split('T')[0];
+        var yyyy = tmr.getFullYear();
+        var mm = String(tmr.getMonth() + 1).padStart(2, '0');
+        var dd = String(tmr.getDate()).padStart(2, '0');
+        dateInput.value = yyyy + '-' + mm + '-' + dd;
+    }
+
+    /* ── Lightbox JS ── */
+    var btnViewMore = document.getElementById('btn-view-more');
+    var lightbox = document.getElementById('lightbox-modal');
+    var lbClose = document.getElementById('lightbox-close');
+    var lbPrev = document.getElementById('lightbox-prev');
+    var lbNext = document.getElementById('lightbox-next');
+    var lbContainer = document.getElementById('lightbox-images-container');
+    
+    var currentLbIndex = 0;
+    
+    function showLightboxImg(index) {
+        var imgs = lbContainer.querySelectorAll('.lightbox-img');
+        if (imgs.length === 0) return;
+        imgs.forEach(function(img) { img.classList.remove('is-active'); });
+        if (index >= imgs.length) currentLbIndex = 0;
+        if (index < 0) currentLbIndex = imgs.length - 1;
+        imgs[currentLbIndex].classList.add('is-active');
+    }
+
+    if (btnViewMore) {
+        btnViewMore.addEventListener('click', function(e) {
+            e.preventDefault();
+            currentLbIndex = 0;
+            showLightboxImg(currentLbIndex);
+            lightbox.classList.add('is-active');
+            document.body.style.overflow = 'hidden'; // prevent scrolling behind modal
+        });
+    }
+    
+    if (lbClose) {
+        lbClose.addEventListener('click', function() {
+            lightbox.classList.remove('is-active');
+            document.body.style.overflow = '';
+        });
+    }
+    
+    if (lbPrev) {
+        lbPrev.addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentLbIndex--;
+            showLightboxImg(currentLbIndex);
+        });
+    }
+    
+    if (lbNext) {
+        lbNext.addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentLbIndex++;
+            showLightboxImg(currentLbIndex);
+        });
+    }
+    
+    // Close when clicking outside image
+    if (lightbox) {
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
+                lightbox.classList.remove('is-active');
+                document.body.style.overflow = '';
+            }
+        });
     }
 
 }());

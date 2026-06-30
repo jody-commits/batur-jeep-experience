@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
 
 // ── Public ─────────────────────────────────────────────────
 $routes->get("/", "Home::index");
+$routes->post("reviews", "Home::submitReview");
 $routes->get("packages", "Package::index");
 $routes->get("about",    "About::index");
 $routes->get("contact",  "Contact::index");
@@ -57,8 +58,19 @@ $routes->get("dev/login-as-admin", static function () {
 
 // ── Admin Area ──────────────────────────────────────────────
 $routes->get("admin/dashboard", "Admin\Dashboard::index");
-$routes->get("admin/bookings", "Admin\Bookings::index");
-$routes->post("admin/bookings/update-status/(:num)", "Admin\Bookings::updateStatus/$1");
+
+$routes->group("admin", static function ($routes) {
+    // Admin Bookings
+    $routes->get("bookings",               "Admin\Bookings::index");
+    $routes->post("bookings/confirm/(:num)","Admin\Bookings::confirm/$1");
+    $routes->post("bookings/cancel/(:num)", "Admin\Bookings::cancel/$1");
+    $routes->post("bookings/complete/(:num)","Admin\Bookings::complete/$1");
+
+    // Admin Reviews
+    $routes->get("reviews", "Admin\Reviews::index");
+    $routes->post("reviews/updateStatus/(:num)", "Admin\Reviews::updateStatus/$1");
+    $routes->get("reviews/delete/(:num)", "Admin\Reviews::delete/$1");
+});
 
 // Packages CRUD
 $routes->get("admin/packages", "Admin\Packages::index");

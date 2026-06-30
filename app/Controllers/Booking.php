@@ -39,11 +39,8 @@ class Booking extends BaseController
             if ($pkg['is_pickup'] == 1) {
                 $pkg['included'][] = 'Breakfast & Coffee Included';
                 $pkg['pickup_type'] = 'hotel';
-                // subtitle manual mapping untuk UI (opsional, bisa diambil dari DB jika ada)
-                $pkg['subtitle'] = 'Kintamani Highland Private Expedition';
             } else {
                 $pkg['pickup_type'] = 'meeting';
-                $pkg['subtitle'] = 'Meeting Point, Self Drive Route';
             }
             // Fallback for image
             $pkg['image'] = $pkg['thumbnail'] ?? 'batur-sunrise-hero.png';

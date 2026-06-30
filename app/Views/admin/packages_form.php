@@ -60,14 +60,49 @@
             </div>
             
             <div style="margin-bottom: 1.25rem;">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--admin-text-main);">Package Image (Thumbnail)</label>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--admin-text-main);">Package Image (Main / Thumbnail)</label>
                 <input type="file" name="thumbnail" accept="image/png, image/jpeg, image/webp" style="width: 100%; padding: 0.5rem; border: 1px solid var(--admin-border); border-radius: 4px; background: #fff;">
-                <?php if ($package && $package['thumbnail']): ?>
+                <?php if ($package && !empty($package['thumbnail'])): ?>
                     <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--admin-text-mut);">
                         Current image: <?= esc($package['thumbnail']) ?>
                     </div>
                 <?php endif; ?>
                 <div style="font-size: 0.8rem; color: var(--admin-text-light); margin-top: 0.25rem;">Leave empty to keep current image (if editing) or use default. Max size: 2MB.</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+                <!-- Image 2 -->
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--admin-text-main);">Gallery Image 2</label>
+                    <input type="file" name="image2" accept="image/png, image/jpeg, image/webp" style="width: 100%; padding: 0.5rem; border: 1px solid var(--admin-border); border-radius: 4px; background: #fff;">
+                    <?php if ($package && !empty($package['image2'])): ?>
+                        <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--admin-text-mut);">
+                            Current: <?= esc($package['image2']) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                
+                <!-- Image 3 -->
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--admin-text-main);">Gallery Image 3</label>
+                    <input type="file" name="image3" accept="image/png, image/jpeg, image/webp" style="width: 100%; padding: 0.5rem; border: 1px solid var(--admin-border); border-radius: 4px; background: #fff;">
+                    <?php if ($package && !empty($package['image3'])): ?>
+                        <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--admin-text-mut);">
+                            Current: <?= esc($package['image3']) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                
+                <!-- Image 4 -->
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--admin-text-main);">Gallery Image 4</label>
+                    <input type="file" name="image4" accept="image/png, image/jpeg, image/webp" style="width: 100%; padding: 0.5rem; border: 1px solid var(--admin-border); border-radius: 4px; background: #fff;">
+                    <?php if ($package && !empty($package['image4'])): ?>
+                        <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--admin-text-mut);">
+                            Current: <?= esc($package['image4']) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
             
             <div style="display: flex; gap: 2rem; margin-bottom: 2rem; padding: 1rem; background: #f8fafc; border-radius: 4px; border: 1px solid var(--admin-border);">

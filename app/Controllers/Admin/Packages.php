@@ -89,10 +89,32 @@ class Packages extends BaseController
         }
 
         $thumbnailName = 'custom-tour.jpg'; // hardcoded default
+        $image2Name = null;
+        $image3Name = null;
+        $image4Name = null;
+
         $file = $this->request->getFile('thumbnail');
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $thumbnailName = $file->getRandomName();
             $file->move(FCPATH . 'assets/images', $thumbnailName);
+        }
+        
+        $file2 = $this->request->getFile('image2');
+        if ($file2 && $file2->isValid() && !$file2->hasMoved()) {
+            $image2Name = $file2->getRandomName();
+            $file2->move(FCPATH . 'assets/images', $image2Name);
+        }
+        
+        $file3 = $this->request->getFile('image3');
+        if ($file3 && $file3->isValid() && !$file3->hasMoved()) {
+            $image3Name = $file3->getRandomName();
+            $file3->move(FCPATH . 'assets/images', $image3Name);
+        }
+        
+        $file4 = $this->request->getFile('image4');
+        if ($file4 && $file4->isValid() && !$file4->hasMoved()) {
+            $image4Name = $file4->getRandomName();
+            $file4->move(FCPATH . 'assets/images', $image4Name);
         }
 
         $this->packageModel->save([
@@ -105,6 +127,9 @@ class Packages extends BaseController
             'is_active'   => $this->request->getPost('is_active') ? 1 : 0,
             'is_pickup'   => $this->request->getPost('is_pickup') ? 1 : 0,
             'thumbnail'   => $thumbnailName,
+            'image2'      => $image2Name,
+            'image3'      => $image3Name,
+            'image4'      => $image4Name,
         ]);
 
         return redirect()->to('/admin/packages')->with('message', 'Package created successfully.');
@@ -160,6 +185,27 @@ class Packages extends BaseController
             $thumbnailName = $file->getRandomName();
             $file->move(FCPATH . 'assets/images', $thumbnailName);
             $updateData['thumbnail'] = $thumbnailName;
+        }
+        
+        $file2 = $this->request->getFile('image2');
+        if ($file2 && $file2->isValid() && !$file2->hasMoved()) {
+            $image2Name = $file2->getRandomName();
+            $file2->move(FCPATH . 'assets/images', $image2Name);
+            $updateData['image2'] = $image2Name;
+        }
+        
+        $file3 = $this->request->getFile('image3');
+        if ($file3 && $file3->isValid() && !$file3->hasMoved()) {
+            $image3Name = $file3->getRandomName();
+            $file3->move(FCPATH . 'assets/images', $image3Name);
+            $updateData['image3'] = $image3Name;
+        }
+        
+        $file4 = $this->request->getFile('image4');
+        if ($file4 && $file4->isValid() && !$file4->hasMoved()) {
+            $image4Name = $file4->getRandomName();
+            $file4->move(FCPATH . 'assets/images', $image4Name);
+            $updateData['image4'] = $image4Name;
         }
 
         $this->packageModel->update($id, $updateData);

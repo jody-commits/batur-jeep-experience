@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PackageModel;
+use App\Models\ReviewModel;
 
 /**
  * Controller: Home
@@ -34,12 +35,34 @@ class Home extends BaseController
             ];
         }
 
+        $reviewModel = new ReviewModel();
+        $reviews = $reviewModel->getApprovedReviews();
+
         $data = [
             'title'            => 'Batur Jeep Experience — Wisata Jeep Offroad Kintamani Bali',
-            'meta_description' => 'Wisata Jeep Offroad terbaik di Gunung Batur, Kintamani, Bali. Paket Sunrise, Offroad Adventure, Private Trip. Booking mudah & aman. Pesan sekarang!',
+            'meta_description' => 'Wisata Jeep Offroad terbaik di Gunung Batur, Kintamani, Bali. Paket Sunrise, Offroad Adventure,. Booking mudah & aman. Pesan sekarang!',
             'packages'         => $packages,
+            'reviews'          => $reviews,
         ];
 
         return view('home/index', $data);
+    }
+
+    public function submitReview()
+    {
+        $reviewModel = new ReviewModel();
+        
+        $data = [
+            'name'         => $this->request->getPost('reviewer_name'),
+            'location'     => $this->request->getPost('reviewer_location'),
+            'package_name' => $this->request->getPost('reviewer_package'),
+            'rating'       => (int) $this->request->getPost('reviewer_rating'),
+            'review_text'  => $this->request->getPost('reviewer_text'),
+            'status'       => 'pending' // Admin must approve
+        ];
+
+        $reviewModel->insert($data);
+
+        return redirect()->to('/#testimonials-section')->with('success', 'Thank you! Your review has been submitted and is pending approval.');
     }
 }
