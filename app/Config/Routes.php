@@ -62,9 +62,10 @@ $routes->get("admin/dashboard", "Admin\Dashboard::index");
 $routes->group("admin", static function ($routes) {
     // Admin Bookings
     $routes->get("bookings",               "Admin\Bookings::index");
-    $routes->post("bookings/confirm/(:num)","Admin\Bookings::confirm/$1");
-    $routes->post("bookings/cancel/(:num)", "Admin\Bookings::cancel/$1");
-    $routes->post("bookings/complete/(:num)","Admin\Bookings::complete/$1");
+    $routes->post("bookings/update-status/(:num)", "Admin\Bookings::updateStatus/$1");
+    // $routes->post("bookings/confirm/(:num)","Admin\Bookings::confirm/$1");
+    // $routes->post("bookings/cancel/(:num)", "Admin\Bookings::cancel/$1");
+    // $routes->post("bookings/complete/(:num)","Admin\Bookings::complete/$1");
 
     // Admin Reviews
     $routes->get("reviews", "Admin\Reviews::index");

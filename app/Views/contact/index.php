@@ -21,7 +21,7 @@
 ════════════════════════════════════════════════════════ -->
 <section class="contact-hero" aria-labelledby="contact-page-title">
     <div class="contact-hero__bg"
-         style="background-image: url('<?= base_url('assets/images/jeep-hero.jpg') ?>');">
+         style="background-image: url('<?= base_url('assets/images/jeep-merah.jpg') ?>');">
     </div>
     <div class="contact-hero__overlay"></div>
     <div class="contact-hero__content" data-aos="fade-up">
@@ -122,7 +122,7 @@
             <!-- Card 1: Our Basecamp (with location photo) -->
             <div class="contact-info-card">
                 <img
-                    src="<?= base_url('assets/images/contact-basecamp.jpg') ?>"
+                    src="<?= base_url('assets/images/basecamm.jpeg') ?>"
                     alt="Kintamani Basecamp"
                     class="contact-info-map-img">
                 <div class="contact-info-card-body">
