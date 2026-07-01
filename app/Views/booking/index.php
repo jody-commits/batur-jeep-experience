@@ -68,7 +68,7 @@
                     <p class="pkg-select-title">Choose a Package</p>
                     <div class="pkg-select-list">
                         <?php foreach ($packages as $pkg): ?>
-                        <div class="pkg-select-item<?= $pkg['id'] === $selectedId ? ' is-active' : '' ?>"
+                        <div class="pkg-select-item<?= $pkg['id'] == $selectedId ? ' is-active' : '' ?>"
                              data-pkg-id="<?= $pkg['id'] ?>"
                              data-pkg-name="<?= esc($pkg['name']) ?>"
                              data-pkg-fulldesc="<?= esc($pkg['description']) ?>"
