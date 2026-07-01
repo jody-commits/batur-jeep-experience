@@ -339,10 +339,36 @@
     /* ── State ── */
     var currentPrice = <?= $selected['price'] ?>;
 
+    /* ── Helper: populate lightbox from a pkg-select-item element ── */
+    function initLightboxFromItem(item) {
+        if (!item) return;
+        var imgSrc = item.getAttribute('data-pkg-image');
+        var img2   = item.getAttribute('data-pkg-img2');
+        var img3   = item.getAttribute('data-pkg-img3');
+        var img4   = item.getAttribute('data-pkg-img4');
+
+        var lbContainer = document.getElementById('lightbox-images-container');
+        var lbHtml = '<img src="' + imgSrc + '" class="lightbox-img is-active">';
+        var imgCount = 1;
+        if (img2 && img2.trim() !== '') { lbHtml += '<img src="' + img2 + '" class="lightbox-img">'; imgCount++; }
+        if (img3 && img3.trim() !== '') { lbHtml += '<img src="' + img3 + '" class="lightbox-img">'; imgCount++; }
+        if (img4 && img4.trim() !== '') { lbHtml += '<img src="' + img4 + '" class="lightbox-img">'; imgCount++; }
+        lbContainer.innerHTML = lbHtml;
+
+        var btnMore = document.getElementById('btn-view-more');
+        if (btnMore) {
+            btnMore.style.display = imgCount > 1 ? 'flex' : 'none';
+        }
+    }
+
     /* ── Package Selector ── */
     var btnChangePkg  = document.getElementById('btn-change-pkg');
     var pkgSelector   = document.getElementById('booking-pkg-selector');
     var pkgItems      = document.querySelectorAll('.pkg-select-item');
+
+    // Initialize lightbox from the ACTIVE package on page load
+    var activeItem = document.querySelector('.pkg-select-item.is-active');
+    initLightboxFromItem(activeItem);
 
     if (btnChangePkg) {
         btnChangePkg.addEventListener('click', function () {
@@ -380,20 +406,8 @@
             mainImg.src = imgSrc;
             mainImg.alt = name;
             
-            var lightboxContainer = document.getElementById('lightbox-images-container');
-            var lbHtml = '<img src="' + imgSrc + '" class="lightbox-img is-active">';
-            var imgCount = 1;
-            if (img2) { lbHtml += '<img src="' + img2 + '" class="lightbox-img">'; imgCount++; }
-            if (img3) { lbHtml += '<img src="' + img3 + '" class="lightbox-img">'; imgCount++; }
-            if (img4) { lbHtml += '<img src="' + img4 + '" class="lightbox-img">'; imgCount++; }
-            lightboxContainer.innerHTML = lbHtml;
-            
-            // Show/hide view more button based on count
-            if (imgCount > 1) {
-                document.getElementById('btn-view-more').style.display = 'flex';
-            } else {
-                document.getElementById('btn-view-more').style.display = 'none';
-            }
+            // Update lightbox using the shared helper
+            initLightboxFromItem(item);
 
             // Update included list
             var incList = document.getElementById('summary-included');
