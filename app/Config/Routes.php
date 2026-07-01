@@ -11,6 +11,7 @@ $routes->get("packages", "Package::index");
 $routes->get("about",    "About::index");
 $routes->get("contact",  "Contact::index");
 $routes->post("contact", "Contact::send");
+$routes->get("sitemap.xml", "Sitemap::index");
 
 // ── Booking ─────────────────────────────────────────────────
 $routes->get("booking",         "Booking::index");
