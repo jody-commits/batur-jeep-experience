@@ -98,6 +98,8 @@ class Packages extends BaseController
             $thumbnailName = $file->getRandomName();
             $file->move(FCPATH . 'assets/images', $thumbnailName);
             $this->resizeImage(FCPATH . 'assets/images/' . $thumbnailName);
+        } elseif ($file && !$file->isValid() && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+            return redirect()->back()->withInput()->with('error', 'Thumbnail upload failed: ' . $file->getErrorString());
         }
         
         $file2 = $this->request->getFile('image2');
@@ -105,6 +107,8 @@ class Packages extends BaseController
             $image2Name = $file2->getRandomName();
             $file2->move(FCPATH . 'assets/images', $image2Name);
             $this->resizeImage(FCPATH . 'assets/images/' . $image2Name);
+        } elseif ($file2 && !$file2->isValid() && $file2->getError() !== UPLOAD_ERR_NO_FILE) {
+            return redirect()->back()->withInput()->with('error', 'Image 2 upload failed: ' . $file2->getErrorString());
         }
         
         $file3 = $this->request->getFile('image3');
@@ -112,6 +116,8 @@ class Packages extends BaseController
             $image3Name = $file3->getRandomName();
             $file3->move(FCPATH . 'assets/images', $image3Name);
             $this->resizeImage(FCPATH . 'assets/images/' . $image3Name);
+        } elseif ($file3 && !$file3->isValid() && $file3->getError() !== UPLOAD_ERR_NO_FILE) {
+            return redirect()->back()->withInput()->with('error', 'Image 3 upload failed: ' . $file3->getErrorString());
         }
         
         $file4 = $this->request->getFile('image4');
@@ -119,6 +125,8 @@ class Packages extends BaseController
             $image4Name = $file4->getRandomName();
             $file4->move(FCPATH . 'assets/images', $image4Name);
             $this->resizeImage(FCPATH . 'assets/images/' . $image4Name);
+        } elseif ($file4 && !$file4->isValid() && $file4->getError() !== UPLOAD_ERR_NO_FILE) {
+            return redirect()->back()->withInput()->with('error', 'Image 4 upload failed: ' . $file4->getErrorString());
         }
 
         $this->packageModel->save([
@@ -190,6 +198,8 @@ class Packages extends BaseController
             $file->move(FCPATH . 'assets/images', $thumbnailName);
             $this->resizeImage(FCPATH . 'assets/images/' . $thumbnailName);
             $updateData['thumbnail'] = $thumbnailName;
+        } elseif ($file && !$file->isValid() && $file->getError() !== UPLOAD_ERR_NO_FILE) {
+            return redirect()->back()->withInput()->with('error', 'Thumbnail upload failed: ' . $file->getErrorString());
         }
         
         $file2 = $this->request->getFile('image2');
@@ -198,6 +208,8 @@ class Packages extends BaseController
             $file2->move(FCPATH . 'assets/images', $image2Name);
             $this->resizeImage(FCPATH . 'assets/images/' . $image2Name);
             $updateData['image2'] = $image2Name;
+        } elseif ($file2 && !$file2->isValid() && $file2->getError() !== UPLOAD_ERR_NO_FILE) {
+            return redirect()->back()->withInput()->with('error', 'Image 2 upload failed: ' . $file2->getErrorString());
         }
         
         $file3 = $this->request->getFile('image3');
@@ -206,6 +218,8 @@ class Packages extends BaseController
             $file3->move(FCPATH . 'assets/images', $image3Name);
             $this->resizeImage(FCPATH . 'assets/images/' . $image3Name);
             $updateData['image3'] = $image3Name;
+        } elseif ($file3 && !$file3->isValid() && $file3->getError() !== UPLOAD_ERR_NO_FILE) {
+            return redirect()->back()->withInput()->with('error', 'Image 3 upload failed: ' . $file3->getErrorString());
         }
         
         $file4 = $this->request->getFile('image4');
@@ -214,6 +228,8 @@ class Packages extends BaseController
             $file4->move(FCPATH . 'assets/images', $image4Name);
             $this->resizeImage(FCPATH . 'assets/images/' . $image4Name);
             $updateData['image4'] = $image4Name;
+        } elseif ($file4 && !$file4->isValid() && $file4->getError() !== UPLOAD_ERR_NO_FILE) {
+            return redirect()->back()->withInput()->with('error', 'Image 4 upload failed: ' . $file4->getErrorString());
         }
 
         $this->packageModel->update($id, $updateData);
