@@ -244,16 +244,22 @@ class Packages extends BaseController
 
         try {
             $image = \Config\Services::image();
-            $info = $image->withFile($filePath)->getProperties(true);
 
-            // Hanya resize jika lebar melebihi maxWidth
+            // Perbaiki orientasi EXIF dulu (foto miring dari HP)
+            $image->withFile($filePath)
+                  ->reorient()
+                  ->save($filePath, 90);
+
+            // Lalu resize jika masih terlalu besar
+            $info = \Config\Services::image()->withFile($filePath)->getProperties(true);
             if (isset($info['width']) && $info['width'] > $maxWidth) {
-                $image->withFile($filePath)
-                      ->resize($maxWidth, 0, true, 'width')
-                      ->save($filePath, 85); // kualitas 85%
+                \Config\Services::image()
+                    ->withFile($filePath)
+                    ->resize($maxWidth, 0, true, 'width')
+                    ->save($filePath, 85);
             }
         } catch (\Throwable $e) {
-            // Jika resize gagal, biarkan file asli tetap ada
+            // Jika gagal, biarkan file asli tetap ada
             log_message('error', 'Image resize failed for ' . $filePath . ': ' . $e->getMessage());
         }
     }
