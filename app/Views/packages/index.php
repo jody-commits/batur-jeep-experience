@@ -187,7 +187,7 @@
                             <span class="pkg-card__price-unit">/ Jeep</span>
                         </div>
 
-                        <a href="<?= base_url('booking?package_id=' . $pkg['id']) ?>"
+                        <a href="<?= base_url('booking?package=' . $pkg['id']) ?>"
                            class="btn-book"
                            id="book-pkg-<?= $pkg['id'] ?>"
                            aria-label="Book <?= esc($pkg['name']) ?>">
