@@ -97,24 +97,28 @@ class Packages extends BaseController
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $thumbnailName = $file->getRandomName();
             $file->move(FCPATH . 'assets/images', $thumbnailName);
+            $this->resizeImage(FCPATH . 'assets/images/' . $thumbnailName);
         }
         
         $file2 = $this->request->getFile('image2');
         if ($file2 && $file2->isValid() && !$file2->hasMoved()) {
             $image2Name = $file2->getRandomName();
             $file2->move(FCPATH . 'assets/images', $image2Name);
+            $this->resizeImage(FCPATH . 'assets/images/' . $image2Name);
         }
         
         $file3 = $this->request->getFile('image3');
         if ($file3 && $file3->isValid() && !$file3->hasMoved()) {
             $image3Name = $file3->getRandomName();
             $file3->move(FCPATH . 'assets/images', $image3Name);
+            $this->resizeImage(FCPATH . 'assets/images/' . $image3Name);
         }
         
         $file4 = $this->request->getFile('image4');
         if ($file4 && $file4->isValid() && !$file4->hasMoved()) {
             $image4Name = $file4->getRandomName();
             $file4->move(FCPATH . 'assets/images', $image4Name);
+            $this->resizeImage(FCPATH . 'assets/images/' . $image4Name);
         }
 
         $this->packageModel->save([
@@ -184,6 +188,7 @@ class Packages extends BaseController
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $thumbnailName = $file->getRandomName();
             $file->move(FCPATH . 'assets/images', $thumbnailName);
+            $this->resizeImage(FCPATH . 'assets/images/' . $thumbnailName);
             $updateData['thumbnail'] = $thumbnailName;
         }
         
@@ -191,6 +196,7 @@ class Packages extends BaseController
         if ($file2 && $file2->isValid() && !$file2->hasMoved()) {
             $image2Name = $file2->getRandomName();
             $file2->move(FCPATH . 'assets/images', $image2Name);
+            $this->resizeImage(FCPATH . 'assets/images/' . $image2Name);
             $updateData['image2'] = $image2Name;
         }
         
@@ -198,6 +204,7 @@ class Packages extends BaseController
         if ($file3 && $file3->isValid() && !$file3->hasMoved()) {
             $image3Name = $file3->getRandomName();
             $file3->move(FCPATH . 'assets/images', $image3Name);
+            $this->resizeImage(FCPATH . 'assets/images/' . $image3Name);
             $updateData['image3'] = $image3Name;
         }
         
@@ -205,6 +212,7 @@ class Packages extends BaseController
         if ($file4 && $file4->isValid() && !$file4->hasMoved()) {
             $image4Name = $file4->getRandomName();
             $file4->move(FCPATH . 'assets/images', $image4Name);
+            $this->resizeImage(FCPATH . 'assets/images/' . $image4Name);
             $updateData['image4'] = $image4Name;
         }
 
@@ -222,5 +230,31 @@ class Packages extends BaseController
 
         $this->packageModel->delete($id);
         return redirect()->to('/admin/packages')->with('message', 'Package deleted successfully.');
+    }
+
+    /**
+     * Resize gambar agar tidak melebihi lebar 1200px.
+     * Mencegah timeout 503 saat upload foto beresolusi tinggi ke shared hosting.
+     */
+    private function resizeImage(string $filePath, int $maxWidth = 1200): void
+    {
+        if (!file_exists($filePath)) {
+            return;
+        }
+
+        try {
+            $image = \Config\Services::image();
+            $info = $image->withFile($filePath)->getProperties(true);
+
+            // Hanya resize jika lebar melebihi maxWidth
+            if (isset($info['width']) && $info['width'] > $maxWidth) {
+                $image->withFile($filePath)
+                      ->resize($maxWidth, 0, true, 'width')
+                      ->save($filePath, 85); // kualitas 85%
+            }
+        } catch (\Throwable $e) {
+            // Jika resize gagal, biarkan file asli tetap ada
+            log_message('error', 'Image resize failed for ' . $filePath . ': ' . $e->getMessage());
+        }
     }
 }
