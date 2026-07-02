@@ -23,6 +23,7 @@ class PackageModel extends Model
         'name',
         'description',
         'price',
+        'pricing_type',
         'min_persons',
         'max_persons',
         'duration',

@@ -32,10 +32,17 @@
                 <input type="text" name="name" value="<?= old('name', $package['name'] ?? '') ?>" style="width: 100%; padding: 0.75rem; border: 1px solid var(--admin-border); border-radius: 4px;" required>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
                 <div>
                     <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--admin-text-main);">Price (IDR) <span style="color:red;">*</span></label>
                     <input type="number" name="price" value="<?= old('price', $package['price'] ?? '') ?>" style="width: 100%; padding: 0.75rem; border: 1px solid var(--admin-border); border-radius: 4px;" required>
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--admin-text-main);">Pricing Type <span style="color:red;">*</span></label>
+                    <select name="pricing_type" style="width: 100%; padding: 0.75rem; border: 1px solid var(--admin-border); border-radius: 4px; background: #fff;" required>
+                        <option value="per_jeep" <?= old('pricing_type', $package['pricing_type'] ?? 'per_jeep') == 'per_jeep' ? 'selected' : '' ?>>Per Jeep / Group</option>
+                        <option value="per_pax" <?= old('pricing_type', $package['pricing_type'] ?? '') == 'per_pax' ? 'selected' : '' ?>>Per Person (Per Pax)</option>
+                    </select>
                 </div>
                 <div>
                     <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--admin-text-main);">Max Persons <span style="color:red;">*</span></label>

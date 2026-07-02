@@ -80,6 +80,7 @@
                              data-pkg-img4="<?= !empty($pkg['image4']) ? base_url('assets/images/' . $pkg['image4']) : '' ?>"
                              data-pkg-pickup="<?= esc($pkg['pickup_time'] ?? '') ?>"
                              data-pkg-max-persons="<?= $pkg['max_persons'] ?>"
+                             data-pkg-pricing-type="<?= $pkg['pricing_type'] ?? 'per_jeep' ?>"
                              data-pkg-included="<?= esc(implode('||', $pkg['included'])) ?>">
                             <span class="pkg-select-item-name"><?= esc($pkg['name']) ?></span>
                             <span class="pkg-select-item-price">Rp <?= number_format($pkg['price'], 0, ',', '.') ?></span>
@@ -185,10 +186,15 @@
                         <span class="guest-counter-hint" id="guest-counter-hint">
                             <?php 
                                 $maxP = $selected['max_persons'] ?? 3;
-                                if ($maxP <= 3) {
-                                    echo 'Maximum ' . $maxP . ' people per Jeep — more guests = more Jeeps added automatically';
+                                $pType = $selected['pricing_type'] ?? 'per_jeep';
+                                if ($pType === 'per_pax') {
+                                    echo 'Price is calculated per person. Max ' . $maxP . ' persons per booking.';
                                 } else {
-                                    echo 'Package covers up to ' . $maxP . ' people (using multiple Jeeps). More guests = extra packages added automatically';
+                                    if ($maxP <= 3) {
+                                        echo 'Maximum ' . $maxP . ' people per Jeep — more guests = more Jeeps added automatically';
+                                    } else {
+                                        echo 'Package covers up to ' . $maxP . ' people (using multiple Jeeps). More guests = extra packages added automatically';
+                                    }
                                 }
                             ?>
                         </span>
@@ -404,6 +410,7 @@
             var img4    = item.getAttribute('data-pkg-img4');
             var pickupT = item.getAttribute('data-pkg-pickup');
             var maxPax  = parseInt(item.getAttribute('data-pkg-max-persons'), 10) || 3;
+            var pricingT = item.getAttribute('data-pkg-pricing-type') || 'per_jeep';
             var included= item.getAttribute('data-pkg-included').split('||');
 
             // Update card header
@@ -438,10 +445,16 @@
 
             currentPrice = price;
             maxPerJeep = maxPax;
-            if (maxPerJeep <= 3) {
-                document.getElementById('guest-counter-hint').textContent = 'Maximum ' + maxPerJeep + ' people per Jeep — more guests = more Jeeps added automatically';
+            pricingType = pricingT;
+            
+            if (pricingType === 'per_pax') {
+                document.getElementById('guest-counter-hint').textContent = 'Price is calculated per person. Max ' + maxPerJeep + ' persons per booking.';
             } else {
-                document.getElementById('guest-counter-hint').textContent = 'Package covers up to ' + maxPerJeep + ' people (using multiple Jeeps). More guests = extra packages added automatically';
+                if (maxPerJeep <= 3) {
+                    document.getElementById('guest-counter-hint').textContent = 'Maximum ' + maxPerJeep + ' people per Jeep — more guests = more Jeeps added automatically';
+                } else {
+                    document.getElementById('guest-counter-hint').textContent = 'Package covers up to ' + maxPerJeep + ' people (using multiple Jeeps). More guests = extra packages added automatically';
+                }
             }
             
             updateTotal();
@@ -463,21 +476,28 @@
     var summaryJeepCount = document.getElementById('summary-jeep-count');
 
     var maxPerJeep = <?= $selected['max_persons'] ?? 3 ?>;
+    var pricingType = '<?= $selected['pricing_type'] ?? 'per_jeep' ?>';
 
     function calcJeeps(guests) {
+        if (pricingType === 'per_pax') return guests;
         return Math.ceil(guests / maxPerJeep);
     }
 
     function updateGuestDisplay() {
         var guests = parseInt(guestInput.value, 10);
         var multiplier = calcJeeps(guests);
-        var unitName = maxPerJeep <= 3 ? 'Jeeps' : 'Packages';
+        var unitName = 'Jeeps';
+        if (pricingType === 'per_pax') {
+            unitName = 'Pax';
+        } else if (maxPerJeep > 3) {
+            unitName = 'Packages';
+        }
 
         // Summary guest count
         if (summaryGuest) summaryGuest.textContent = guests;
 
         // Jeep indicator badge (below counter)
-        if (guests > maxPerJeep) {
+        if (pricingType === 'per_jeep' && guests > maxPerJeep) {
             jeepIndicator.style.display = '';
             jeepIndicatorTxt.textContent = multiplier + ' ' + unitName + ' needed';
         } else {

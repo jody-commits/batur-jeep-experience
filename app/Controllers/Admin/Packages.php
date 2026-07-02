@@ -81,6 +81,7 @@ class Packages extends BaseController
             'price'       => 'required|numeric',
             'duration'    => 'required|max_length[50]',
             'max_persons' => 'required|integer',
+            'pricing_type'=> 'required|in_list[per_jeep,per_pax]',
             'description' => 'required',
         ];
 
@@ -134,6 +135,7 @@ class Packages extends BaseController
             'price'       => $this->request->getPost('price'),
             'duration'    => $this->request->getPost('duration'),
             'max_persons' => $this->request->getPost('max_persons'),
+            'pricing_type'=> $this->request->getPost('pricing_type'),
             'description' => $this->request->getPost('description'),
             'pickup_time' => $this->request->getPost('pickup_time'),
             'is_active'   => $this->request->getPost('is_active') ? 1 : 0,
@@ -174,6 +176,7 @@ class Packages extends BaseController
             'price'       => 'required|numeric',
             'duration'    => 'required|max_length[50]',
             'max_persons' => 'required|integer',
+            'pricing_type'=> 'required|in_list[per_jeep,per_pax]',
             'description' => 'required',
         ];
 
@@ -186,6 +189,7 @@ class Packages extends BaseController
             'price'       => $this->request->getPost('price'),
             'duration'    => $this->request->getPost('duration'),
             'max_persons' => $this->request->getPost('max_persons'),
+            'pricing_type'=> $this->request->getPost('pricing_type'),
             'description' => $this->request->getPost('description'),
             'pickup_time' => $this->request->getPost('pickup_time'),
             'is_active'   => $this->request->getPost('is_active') ? 1 : 0,
