@@ -160,7 +160,7 @@ class Booking extends BaseController
             'total_persons'  => $numGuests,
             'total_price'    => $totalPrice,
             'status'         => 'pending',
-            'notes'          => 'Jumlah Jeep: ' . $numJeeps,
+            'notes'          => ($pricingType === 'per_pax') ? 'Jumlah Pax: ' . $multiplier : 'Jumlah Jeep: ' . $multiplier,
         ];
 
         $this->bookingModel->insert($bookingData);
