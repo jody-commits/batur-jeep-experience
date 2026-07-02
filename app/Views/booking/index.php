@@ -182,7 +182,16 @@
                     <!-- Number of Guests -->
                     <div class="guest-counter-wrap">
                         <span class="guest-counter-label">Number of Guests</span>
-                        <span class="guest-counter-hint" id="guest-counter-hint">Maximum <?= $selected['max_persons'] ?? 3 ?> people per Jeep — more guests = more Jeeps added automatically</span>
+                        <span class="guest-counter-hint" id="guest-counter-hint">
+                            <?php 
+                                $maxP = $selected['max_persons'] ?? 3;
+                                if ($maxP <= 3) {
+                                    echo 'Maximum ' . $maxP . ' people per Jeep — more guests = more Jeeps added automatically';
+                                } else {
+                                    echo 'Package covers up to ' . $maxP . ' people (using multiple Jeeps). More guests = extra packages added automatically';
+                                }
+                            ?>
+                        </span>
                         <div class="guest-counter">
                             <button type="button" class="guest-counter__btn" id="guest-minus" aria-label="Decrease guests">
                                 <i class="fa-solid fa-minus"></i>
@@ -429,7 +438,11 @@
 
             currentPrice = price;
             maxPerJeep = maxPax;
-            document.getElementById('guest-counter-hint').textContent = 'Maximum ' + maxPerJeep + ' people per Jeep — more guests = more Jeeps added automatically';
+            if (maxPerJeep <= 3) {
+                document.getElementById('guest-counter-hint').textContent = 'Maximum ' + maxPerJeep + ' people per Jeep — more guests = more Jeeps added automatically';
+            } else {
+                document.getElementById('guest-counter-hint').textContent = 'Package covers up to ' + maxPerJeep + ' people (using multiple Jeeps). More guests = extra packages added automatically';
+            }
             
             updateTotal();
             updateGuestDisplay();
@@ -457,7 +470,8 @@
 
     function updateGuestDisplay() {
         var guests = parseInt(guestInput.value, 10);
-        var jeeps  = calcJeeps(guests);
+        var multiplier = calcJeeps(guests);
+        var unitName = maxPerJeep <= 3 ? 'Jeeps' : 'Packages';
 
         // Summary guest count
         if (summaryGuest) summaryGuest.textContent = guests;
@@ -465,15 +479,15 @@
         // Jeep indicator badge (below counter)
         if (guests > maxPerJeep) {
             jeepIndicator.style.display = '';
-            jeepIndicatorTxt.textContent = jeeps + ' Jeeps needed';
+            jeepIndicatorTxt.textContent = multiplier + ' ' + unitName + ' needed';
         } else {
             jeepIndicator.style.display = 'none';
         }
 
         // Summary jeep row (right panel)
-        if (jeeps > 1) {
+        if (multiplier > 1) {
             summaryJeepRow.style.display = '';
-            summaryJeepCount.textContent = '× ' + jeeps + ' Jeeps';
+            summaryJeepCount.textContent = '× ' + multiplier + ' ' + unitName;
         } else {
             summaryJeepRow.style.display = 'none';
         }
