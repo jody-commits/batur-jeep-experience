@@ -108,7 +108,10 @@ class Booking extends BaseController
         
         // Jika kapasitas max adalah 3 per jeep, kita hitung jumlah jeep (opsional, tergantung bisnis)
         // Disini kita asumsi 1 booking = 1 paket = 1 basePrice dikali jumlah jeep (maks kapasitas per jeep dari bisnis rule, misal 3)
-        $numJeeps   = (int) ceil($numGuests / 3);
+        $maxPerJeep = (int) ($package['max_persons'] ?? 3);
+        if ($maxPerJeep <= 0) $maxPerJeep = 3;
+        
+        $numJeeps   = (int) ceil($numGuests / $maxPerJeep);
         $totalPrice = $basePrice * $numJeeps;
 
         // 5. Generate nomor referensi unik (Booking Code)

@@ -79,6 +79,7 @@
                              data-pkg-img3="<?= !empty($pkg['image3']) ? base_url('assets/images/' . $pkg['image3']) : '' ?>"
                              data-pkg-img4="<?= !empty($pkg['image4']) ? base_url('assets/images/' . $pkg['image4']) : '' ?>"
                              data-pkg-pickup="<?= esc($pkg['pickup_time'] ?? '') ?>"
+                             data-pkg-max-persons="<?= $pkg['max_persons'] ?>"
                              data-pkg-included="<?= esc(implode('||', $pkg['included'])) ?>">
                             <span class="pkg-select-item-name"><?= esc($pkg['name']) ?></span>
                             <span class="pkg-select-item-price">Rp <?= number_format($pkg['price'], 0, ',', '.') ?></span>
@@ -181,7 +182,7 @@
                     <!-- Number of Guests -->
                     <div class="guest-counter-wrap">
                         <span class="guest-counter-label">Number of Guests</span>
-                        <span class="guest-counter-hint">Maximum 3 people per Jeep — more guests = more Jeeps added automatically</span>
+                        <span class="guest-counter-hint" id="guest-counter-hint">Maximum <?= $selected['max_persons'] ?? 3 ?> people per Jeep — more guests = more Jeeps added automatically</span>
                         <div class="guest-counter">
                             <button type="button" class="guest-counter__btn" id="guest-minus" aria-label="Decrease guests">
                                 <i class="fa-solid fa-minus"></i>
@@ -393,6 +394,7 @@
             var img3    = item.getAttribute('data-pkg-img3');
             var img4    = item.getAttribute('data-pkg-img4');
             var pickupT = item.getAttribute('data-pkg-pickup');
+            var maxPax  = parseInt(item.getAttribute('data-pkg-max-persons'), 10) || 3;
             var included= item.getAttribute('data-pkg-included').split('||');
 
             // Update card header
@@ -426,7 +428,11 @@
             });
 
             currentPrice = price;
+            maxPerJeep = maxPax;
+            document.getElementById('guest-counter-hint').textContent = 'Maximum ' + maxPerJeep + ' people per Jeep — more guests = more Jeeps added automatically';
+            
             updateTotal();
+            updateGuestDisplay();
 
             // Close selector
             pkgSelector.classList.remove('is-open');
@@ -443,10 +449,10 @@
     var summaryJeepRow   = document.getElementById('summary-jeep-row');
     var summaryJeepCount = document.getElementById('summary-jeep-count');
 
-    var MAX_PER_JEEP = 3;
+    var maxPerJeep = <?= $selected['max_persons'] ?? 3 ?>;
 
     function calcJeeps(guests) {
-        return Math.ceil(guests / MAX_PER_JEEP);
+        return Math.ceil(guests / maxPerJeep);
     }
 
     function updateGuestDisplay() {
@@ -457,7 +463,7 @@
         if (summaryGuest) summaryGuest.textContent = guests;
 
         // Jeep indicator badge (below counter)
-        if (guests > MAX_PER_JEEP) {
+        if (guests > maxPerJeep) {
             jeepIndicator.style.display = '';
             jeepIndicatorTxt.textContent = jeeps + ' Jeeps needed';
         } else {
