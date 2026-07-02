@@ -165,7 +165,27 @@ class Booking extends BaseController
 
         $this->bookingModel->insert($bookingData);
 
-        // 8. Redirect ke halaman konfirmasi dengan flashdata
+        // 8. Kirim Notifikasi Email ke Admin
+        $emailService = \Config\Services::email();
+        
+        // Ambil alamat email admin dari .env (fallback jika tidak ada)
+        $adminEmail = env('email.recipients') ?: 'admin@baturjeepexperience.com';
+        
+        $emailService->setTo($adminEmail);
+        $emailService->setSubject('New Booking: ' . $refCode . ' - ' . $this->request->getPost('full_name'));
+        
+        // Render template email
+        $emailData = $bookingData;
+        $emailData['package_name'] = $package['name'];
+        $emailMessage = view('email/booking_notification', $emailData);
+        
+        $emailService->setMailType('html');
+        $emailService->setMessage($emailMessage);
+        
+        // Kirim email (kami menekan error jika email gagal agar booking tetap jalan)
+        @$emailService->send();
+
+        // 9. Redirect ke halaman konfirmasi dengan flashdata
         return redirect()->to("booking/confirm/$refCode");
     }
 
